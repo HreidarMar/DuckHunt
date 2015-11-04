@@ -1,5 +1,5 @@
 // ====
-// ROCK
+// Duck
 // ====
 
 "use strict";
@@ -13,7 +13,7 @@
 
 
 // A generic contructor which accepts an arbitrary descriptor object
-function Rock(descr) {
+function Duck(descr) {
 
     // Common inherited setup logic from Entity
     this.setup(descr);
@@ -22,27 +22,27 @@ function Rock(descr) {
     this.randomiseVelocity();
 
     // Default sprite and scale, if not otherwise specified
-    this.sprite = this.sprite || g_sprites.rock;
+    this.sprite = this.sprite || g_sprites.Duck;
     this.scale  = this.scale  || 1;
 
 /*
     // Diagnostics to check inheritance stuff
-    this._rockProperty = true;
+    this._DuckProperty = true;
     console.dir(this);
 */
 
 };
 
-Rock.prototype = new Entity();
+Duck.prototype = new Entity();
 
-Rock.prototype.randomisePosition = function () {
-    // Rock randomisation defaults (if nothing otherwise specified)
+Duck.prototype.randomisePosition = function () {
+    // Duck randomisation defaults (if nothing otherwise specified)
     this.cx = this.cx || Math.random() * g_canvas.width;
     this.cy = this.cy || Math.random() * g_canvas.height;
     this.rotation = this.rotation || 0;
 };
 
-Rock.prototype.randomiseVelocity = function () {
+Duck.prototype.randomiseVelocity = function () {
     var MIN_SPEED = 20,
         MAX_SPEED = 70;
 
@@ -59,7 +59,7 @@ Rock.prototype.randomiseVelocity = function () {
         util.randRange(MIN_ROT_SPEED, MAX_ROT_SPEED) / SECS_TO_NOMINALS;
 };
 
-Rock.prototype.update = function (du) {
+Duck.prototype.update = function (du) {
 
     // TODO: YOUR STUFF HERE! --- Unregister and check for death
     spatialManager.unregister(this);
@@ -84,17 +84,17 @@ Rock.prototype.update = function (du) {
 
 };
 
-Rock.prototype.getRadius = function () {
+Duck.prototype.getRadius = function () {
     return this.scale * (this.sprite.width / 2) * 0.9;
 };
 
 // HACKED-IN AUDIO (no preloading)
-Rock.prototype.splitSound = new Audio(
+Duck.prototype.splitSound = new Audio(
   "sounds/rockSplit.ogg");
-Rock.prototype.evaporateSound = new Audio(
+Duck.prototype.evaporateSound = new Audio(
   "sounds/rockEvaporate.ogg");
 
-Rock.prototype.takeBulletHit = function () {
+Duck.prototype.takeBulletHit = function () {
     this.kill();
 
     if (this.scale > 0.25) {
@@ -107,15 +107,15 @@ Rock.prototype.takeBulletHit = function () {
     }
 };
 
-Rock.prototype._spawnFragment = function () {
-    entityManager.generateRock({
+Duck.prototype._spawnFragment = function () {
+    entityManager.generateDuck({
         cx : this.cx,
         cy : this.cy,
         scale : this.scale /2
     });
 };
 
-Rock.prototype.render = function (ctx) {
+Duck.prototype.render = function (ctx) {
     var origScale = this.sprite.scale;
     // pass my scale into the sprite, for drawing
     this.sprite.scale = this.scale;

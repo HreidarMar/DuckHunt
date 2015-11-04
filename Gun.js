@@ -1,5 +1,5 @@
 // ==========
-// SHIP STUFF
+// Gun STUFF
 // ==========
 
 "use strict";
@@ -13,7 +13,7 @@
 
 
 // A generic contructor which accepts an arbitrary descriptor object
-function Ship(descr) {
+function Gun(descr) {
 
     // Common inherited setup logic from Entity
     this.setup(descr);
@@ -21,43 +21,43 @@ function Ship(descr) {
     this.rememberResets();
 
     // Default sprite, if not otherwise specified
-    this.sprite = this.sprite || g_sprites.ship;
+    this.sprite = this.sprite || g_sprites.Gun;
 
     // Set normal drawing scale, and warp state off
     this._scale = 1;
     this._isWarping = false;
 };
 
-Ship.prototype = new Entity();
+Gun.prototype = new Entity();
 
-Ship.prototype.rememberResets = function () {
+Gun.prototype.rememberResets = function () {
     // Remember my reset positions
     this.reset_cx = this.cx;
     this.reset_cy = this.cy;
     this.reset_rotation = this.rotation;
 };
 
-Ship.prototype.KEY_THRUST = 'W'.charCodeAt(0);
-Ship.prototype.KEY_RETRO  = 'S'.charCodeAt(0);
-Ship.prototype.KEY_LEFT   = 'A'.charCodeAt(0);
-Ship.prototype.KEY_RIGHT  = 'D'.charCodeAt(0);
+Gun.prototype.KEY_THRUST = 'W'.charCodeAt(0);
+Gun.prototype.KEY_RETRO  = 'S'.charCodeAt(0);
+Gun.prototype.KEY_LEFT   = 'A'.charCodeAt(0);
+Gun.prototype.KEY_RIGHT  = 'D'.charCodeAt(0);
 
-Ship.prototype.KEY_FIRE   = ' '.charCodeAt(0);
+Gun.prototype.KEY_FIRE   = ' '.charCodeAt(0);
 
 // Initial, inheritable, default values
-Ship.prototype.rotation = 0;
-Ship.prototype.cx = 200;
-Ship.prototype.cy = 200;
-Ship.prototype.velX = 0;
-Ship.prototype.velY = 0;
-Ship.prototype.launchVel = 2;
-Ship.prototype.numSubSteps = 1;
+Gun.prototype.rotation = 0;
+Gun.prototype.cx = 200;
+Gun.prototype.cy = 200;
+Gun.prototype.velX = 0;
+Gun.prototype.velY = 0;
+Gun.prototype.launchVel = 2;
+Gun.prototype.numSubSteps = 1;
 
 // HACKED-IN AUDIO (no preloading)
-Ship.prototype.warpSound = new Audio(
+Gun.prototype.warpSound = new Audio(
     "sounds/shipWarp.ogg");
 
-Ship.prototype.warp = function () {
+Gun.prototype.warp = function () {
 
     this._isWarping = true;
     this._scaleDirn = -1;
@@ -68,7 +68,7 @@ Ship.prototype.warp = function () {
     spatialManager.unregister(this);
 };
 
-Ship.prototype._updateWarp = function (du) {
+Gun.prototype._updateWarp = function (du) {
 
     var SHRINK_RATE = 3 / SECS_TO_NOMINALS;
     this._scale += this._scaleDirn * SHRINK_RATE * du;
@@ -91,7 +91,7 @@ Ship.prototype._updateWarp = function (du) {
     }
 };
 
-Ship.prototype._moveToASafePlace = function () {
+Gun.prototype._moveToASafePlace = function () {
 
     // Move to a safe place some suitable distance away
     var origX = this.cx,
@@ -124,7 +124,7 @@ Ship.prototype._moveToASafePlace = function () {
     }
 };
 
-Ship.prototype.update = function (du) {
+Gun.prototype.update = function (du) {
 
     // Handle warping
     if (this._isWarping) {
@@ -159,7 +159,7 @@ Ship.prototype.update = function (du) {
 
 };
 
-Ship.prototype.computeSubStep = function (du) {
+Gun.prototype.computeSubStep = function (du) {
 
     var thrust = this.computeThrustMag();
 
@@ -180,14 +180,14 @@ Ship.prototype.computeSubStep = function (du) {
 
 var NOMINAL_GRAVITY = 0.12;
 
-Ship.prototype.computeGravity = function () {
+Gun.prototype.computeGravity = function () {
     return g_useGravity ? NOMINAL_GRAVITY : 0;
 };
 
 var NOMINAL_THRUST = +0.2;
 var NOMINAL_RETRO  = -0.1;
 
-Ship.prototype.computeThrustMag = function () {
+Gun.prototype.computeThrustMag = function () {
 
     var thrust = 0;
 
@@ -201,7 +201,7 @@ Ship.prototype.computeThrustMag = function () {
     return thrust;
 };
 
-Ship.prototype.applyAccel = function (accelX, accelY, du) {
+Gun.prototype.applyAccel = function (accelX, accelY, du) {
 
     // u = original velocity
     var oldVelX = this.velX;
@@ -226,7 +226,7 @@ Ship.prototype.applyAccel = function (accelX, accelY, du) {
     // bounce
     if (g_useGravity) {
 
-	var minY = g_sprites.ship.height / 2;
+	var minY = g_sprites.Gun.height / 2;
 	var maxY = g_canvas.height - minY;
 
 	// Ignore the bounce if the ship is already in
@@ -244,7 +244,7 @@ Ship.prototype.applyAccel = function (accelX, accelY, du) {
     this.cy += du * intervalVelY;
 };
 
-Ship.prototype.maybeFireBullet = function () {
+Gun.prototype.maybeFireBullet = function () {
 
     if (keys[this.KEY_FIRE]) {
 
@@ -265,29 +265,29 @@ Ship.prototype.maybeFireBullet = function () {
 
 };
 
-Ship.prototype.getRadius = function () {
+Gun.prototype.getRadius = function () {
     return (this.sprite.width / 2) * 0.9;
 };
 
-Ship.prototype.takeBulletHit = function () {
+Gun.prototype.takeBulletHit = function () {
     this.warp();
 };
 
-Ship.prototype.reset = function () {
+Gun.prototype.reset = function () {
     this.setPos(this.reset_cx, this.reset_cy);
     this.rotation = this.reset_rotation;
 
     this.halt();
 };
 
-Ship.prototype.halt = function () {
+Gun.prototype.halt = function () {
     this.velX = 0;
     this.velY = 0;
 };
 
 var NOMINAL_ROTATE_RATE = 0.1;
 
-Ship.prototype.updateRotation = function (du) {
+Gun.prototype.updateRotation = function (du) {
     if (keys[this.KEY_LEFT]) {
         this.rotation -= NOMINAL_ROTATE_RATE * du;
     }
@@ -296,7 +296,7 @@ Ship.prototype.updateRotation = function (du) {
     }
 };
 
-Ship.prototype.render = function (ctx) {
+Gun.prototype.render = function (ctx) {
     var origScale = this.sprite.scale;
     // pass my scale into the sprite, for drawing
     this.sprite.scale = this._scale;

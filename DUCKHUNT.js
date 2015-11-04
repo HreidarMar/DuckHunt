@@ -46,13 +46,13 @@ var g_ctx = g_canvas.getContext("2d");
 // CREATE INITIAL SHIPS
 // ====================
 
-function createInitialShips() {
+function createInitialGuns() {
 
-    entityManager.generateShip({
+    entityManager.generateGun({
         cx : 200,
         cy : 200
     });
-    
+
 }
 
 // =============
@@ -80,13 +80,13 @@ function gatherInputs() {
 // GAME-SPECIFIC UPDATE LOGIC
 
 function updateSimulation(du) {
-    
+
     processDiagnostics();
-    
+
     entityManager.update(du);
 
     // Prevent perpetual firing!
-    eatKey(Ship.prototype.KEY_FIRE);
+    eatKey(Gun.prototype.KEY_FIRE);
 }
 
 // GAME-SPECIFIC DIAGNOSTICS
@@ -122,26 +122,26 @@ function processDiagnostics() {
 
     if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
 
-    if (eatKey(KEY_HALT)) entityManager.haltShips();
+    if (eatKey(KEY_HALT)) entityManager.haltGuns();
 
-    if (eatKey(KEY_RESET)) entityManager.resetShips();
+    if (eatKey(KEY_RESET)) entityManager.resetGuns();
 
-    if (eatKey(KEY_0)) entityManager.toggleRocks();
+    if (eatKey(KEY_0)) entityManager.toggleDucks();
 
-    if (eatKey(KEY_1)) entityManager.generateShip({
+    if (eatKey(KEY_1)) entityManager.generateGun({
         cx : g_mouseX,
         cy : g_mouseY,
-        
-        sprite : g_sprites.ship});
 
-    if (eatKey(KEY_2)) entityManager.generateShip({
+        sprite : g_sprites.Gun});
+
+    if (eatKey(KEY_2)) entityManager.generateGun({
         cx : g_mouseX,
         cy : g_mouseY,
-        
-        sprite : g_sprites.ship2
+
+        sprite : g_sprites.Gun2
         });
 
-    if (eatKey(KEY_K)) entityManager.killNearestShip(
+    if (eatKey(KEY_K)) entityManager.killNearestGun(
         g_mouseX, g_mouseY);
 }
 
@@ -177,9 +177,9 @@ var g_images = {};
 function requestPreloads() {
 
     var requiredImages = {
-        ship   : "https://notendur.hi.is/~pk/308G/images/ship.png",
-        ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
-        rock   : "https://notendur.hi.is/~pk/308G/images/rock.png"
+        Gun   : "https://notendur.hi.is/~pk/308G/images/ship.png",
+        Gun2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
+        Duck   : "https://notendur.hi.is/~pk/308G/images/rock.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -189,15 +189,15 @@ var g_sprites = {};
 
 function preloadDone() {
 
-    g_sprites.ship  = new Sprite(g_images.ship);
-    g_sprites.ship2 = new Sprite(g_images.ship2);
-    g_sprites.rock  = new Sprite(g_images.rock);
+    g_sprites.Gun  = new Sprite(g_images.Gun);
+    g_sprites.Gun2 = new Sprite(g_images.Gun2);
+    g_sprites.Duck  = new Sprite(g_images.Duck);
 
-    g_sprites.bullet = new Sprite(g_images.ship);
+    g_sprites.bullet = new Sprite(g_images.Gun);
     g_sprites.bullet.scale = 0.25;
 
     entityManager.init();
-    createInitialShips();
+    createInitialGuns();
 
     main.init();
 }
