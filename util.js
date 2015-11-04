@@ -78,10 +78,15 @@ wrappedDistSq: function(x1, y1, x2, y2, xWrap, yWrap) {
 // ==========
 
 clearCanvas: function (ctx) {
-    var prevfillStyle = ctx.fillStyle;
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    ctx.fillStyle = prevfillStyle;
+    ctx.save();
+    
+    // drawImage expects "top-left" coords, so we offset our destination
+    // coords accordingly, to draw our sprite centred at the origin
+    var img = new Image;
+    img.onload = function(){
+        ctx.drawImage(img,0,0); // Or at whatever offset you like
+    };
+    img.src = 'https://notendur.hi.is/~hrd5/Verkefni%201/myndir/background.png';
 },
 
 strokeCircle: function (ctx, x, y, r) {
