@@ -167,8 +167,6 @@ function renderSimulation(ctx) {
     if (g_renderSpatialDebug) spatialManager.render(ctx);
 }
 
-//GIT MOTHERFUCKING TEST!!
-meow!
 
 // =============
 // PRELOAD STUFF
