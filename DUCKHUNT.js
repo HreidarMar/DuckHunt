@@ -167,6 +167,8 @@ function renderSimulation(ctx) {
     if (g_renderSpatialDebug) spatialManager.render(ctx);
 }
 
+//GIT MOTHERFUCKING TEST!!
+meow!
 
 // =============
 // PRELOAD STUFF
@@ -179,7 +181,7 @@ function requestPreloads() {
     var requiredImages = {
         Gun   : "https://notendur.hi.is/~pk/308G/images/ship.png",
         Gun2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
-        Duck   : "https://notendur.hi.is/~pk/308G/images/rock.png"
+        Duck   : "https://notendur.hi.is/~hrd5/Verkefni%201/myndir/duckhunt_various_sheet.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
