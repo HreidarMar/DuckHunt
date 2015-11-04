@@ -17,7 +17,7 @@ with suitable 'data' and 'methods'.
 
 
 // Tell jslint not to complain about my use of underscore prefixes (nomen),
-// my flattening of some indentation (white), or my use of incr/decr ops 
+// my flattening of some indentation (white), or my use of incr/decr ops
 // (plusplus).
 //
 /*jslint nomen: true, white: true, plusplus: true*/
@@ -27,45 +27,45 @@ var entityManager = {
 
 // "PRIVATE" DATA
 
-_rocks   : [],
+_Ducks   : [],
 _bullets : [],
-_ships   : [],
+_Guns   : [],
 
-_bShowRocks : true,
+_bShowDucks : true,
 
 // "PRIVATE" METHODS
 
-_generateRocks : function() {
+_generateDucks : function() {
     var i,
-        NUM_ROCKS = 4;
+        NUM_DuckS = 4;
 
-    for (i = 0; i < NUM_ROCKS; ++i) {
-        this.generateRock();
+    for (i = 0; i < NUM_DuckS; ++i) {
+        this.generateDuck();
     }
 },
 
-_findNearestShip : function(posX, posY) {
-    var closestShip = null,
+_findNearestGun : function(posX, posY) {
+    var closestGun = null,
         closestIndex = -1,
         closestSq = 1000 * 1000;
 
-    for (var i = 0; i < this._ships.length; ++i) {
+    for (var i = 0; i < this._Guns.length; ++i) {
 
-        var thisShip = this._ships[i];
-        var shipPos = thisShip.getPos();
+        var thisGun = this._Guns[i];
+        var GunPos = thisGun.getPos();
         var distSq = util.wrappedDistSq(
-            shipPos.posX, shipPos.posY, 
+            GunPos.posX, GunPos.posY,
             posX, posY,
             g_canvas.width, g_canvas.height);
 
         if (distSq < closestSq) {
-            closestShip = thisShip;
+            closestGun = thisGun;
             closestIndex = i;
             closestSq = distSq;
         }
     }
     return {
-        theShip : closestShip,
+        theGun : closestGun,
         theIndex: closestIndex
     };
 },
@@ -87,12 +87,12 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._rocks, this._bullets, this._ships];
+    this._categories = [this._Ducks, this._bullets, this._Guns];
 },
 
 init: function() {
-    this._generateRocks();
-    //this._generateShip();
+    this._generateDucks();
+    //this._generateGun();
 },
 
 fireBullet: function(cx, cy, velX, velY, rotation) {
@@ -106,38 +106,38 @@ fireBullet: function(cx, cy, velX, velY, rotation) {
     }));
 },
 
-generateRock : function(descr) {
-    this._rocks.push(new Rock(descr));
+generateDuck : function(descr) {
+    this._Ducks.push(new Duck(descr));
 },
 
-generateShip : function(descr) {
-    this._ships.push(new Ship(descr));
+generateGun : function(descr) {
+    this._Guns.push(new Gun(descr));
 },
 
-killNearestShip : function(xPos, yPos) {
-    var theShip = this._findNearestShip(xPos, yPos).theShip;
-    if (theShip) {
-        theShip.kill();
+killNearestGun : function(xPos, yPos) {
+    var theGun = this._findNearestGun(xPos, yPos).theGun;
+    if (theGun) {
+        theGun.kill();
     }
 },
 
-yoinkNearestShip : function(xPos, yPos) {
-    var theShip = this._findNearestShip(xPos, yPos).theShip;
-    if (theShip) {
-        theShip.setPos(xPos, yPos);
+yoinkNearestGun : function(xPos, yPos) {
+    var theGun = this._findNearestGun(xPos, yPos).theGun;
+    if (theGun) {
+        theGun.setPos(xPos, yPos);
     }
 },
 
-resetShips: function() {
-    this._forEachOf(this._ships, Ship.prototype.reset);
+resetGuns: function() {
+    this._forEachOf(this._Guns, Gun.prototype.reset);
 },
 
-haltShips: function() {
-    this._forEachOf(this._ships, Ship.prototype.halt);
-},	
+haltGuns: function() {
+    this._forEachOf(this._Guns, Gun.prototype.halt);
+},
 
-toggleRocks: function() {
-    this._bShowRocks = !this._bShowRocks;
+toggleDucks: function() {
+    this._bShowDucks = !this._bShowDucks;
 },
 
 update: function(du) {
@@ -161,8 +161,8 @@ update: function(du) {
             }
         }
     }
-    
-    if (this._rocks.length === 0) this._generateRocks();
+
+    if (this._Ducks.length === 0) this._generateDucks();
 
 },
 
@@ -174,8 +174,8 @@ render: function(ctx) {
 
         var aCategory = this._categories[c];
 
-        if (!this._bShowRocks && 
-            aCategory == this._rocks)
+        if (!this._bShowDucks &&
+            aCategory == this._Ducks)
             continue;
 
         for (var i = 0; i < aCategory.length; ++i) {
@@ -192,4 +192,3 @@ render: function(ctx) {
 
 // Some deferred setup which needs the object to have been created first
 entityManager.deferredSetup();
-
