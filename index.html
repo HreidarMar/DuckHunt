@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<!-- saved from url=(0051)https://notendur.hi.is/~pk/308G/Asteroids_Exercise/ -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="UTF-8">
     <title>DUCK HUNT!</title>
   </head>
   <body>
-
-	<canvas id="myCanvas" width="600" height="600" style="border: 1px solid black;">
+  <div id="canvas_div_no_cursor">
+	<canvas id="myCanvas" width="1000" height="600" style="border: 1px solid black;">
 	Sorry, but your browser does not support the HTML5 canvas tag.
 	</canvas>
+  </div>
 
     <div id="output"></div>
 
@@ -25,8 +25,7 @@
 
     <script src="Entity.js"></script>
     <script src="Duck.js"></script>
-    <script src="Bullet.js"></script>
-    <script src="Gun.js"></script>
+    <script src="Shot.js"></script>
 
     <script src="update.js"></script>
     <script src="render.js"></script>
@@ -35,6 +34,10 @@
     <script src="main.js"></script>
 
     <script src="DUCKHUNT.js"></script>
+
+    <script type="text/javascript">
+  document.getElementById('canvas_div_no_cursor').style.cursor = "none";
+  </script>
 
 
 

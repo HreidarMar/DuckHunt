@@ -85,7 +85,7 @@ Duck.prototype.update = function (du) {
 };
 
 Duck.prototype.getRadius = function () {
-    return this.scale * (this.sprite.width / 2) * 0.9;
+    return 30;
 };
 
 // HACKED-IN AUDIO (no preloading)
@@ -97,21 +97,21 @@ Duck.prototype.evaporateSound = new Audio(
 Duck.prototype.takeBulletHit = function () {
     this.kill();
 
-    if (this.scale > 0.25) {
+  /*  if (this.scale > 0.25) {
         this._spawnFragment();
         this._spawnFragment();
 
         this.splitSound.play();
     } else {
         this.evaporateSound.play();
-    }
+    }*/
 };
 
 Duck.prototype._spawnFragment = function () {
     entityManager.generateDuck({
         cx : this.cx,
         cy : this.cy,
-        scale : this.scale /2
+        //scale : this.scale /2
     });
 };
 
