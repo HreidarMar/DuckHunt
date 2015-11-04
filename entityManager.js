@@ -28,8 +28,7 @@ var entityManager = {
 // "PRIVATE" DATA
 
 _Ducks   : [],
-_bullets : [],
-_Guns   : [],
+_Shots   : [],
 
 _bShowDucks : true,
 
@@ -44,28 +43,28 @@ _generateDucks : function() {
     }
 },
 
-_findNearestGun : function(posX, posY) {
-    var closestGun = null,
+_findNearestDuck : function(posX, posY) {
+    var closestDuck = null,
         closestIndex = -1,
         closestSq = 1000 * 1000;
 
-    for (var i = 0; i < this._Guns.length; ++i) {
+    for (var i = 0; i < this._Ducks.length; ++i) {
 
-        var thisGun = this._Guns[i];
-        var GunPos = thisGun.getPos();
+        var thisDucks = this._Ducks[i];
+        var DuckPos = thisDucks.getPos();
         var distSq = util.wrappedDistSq(
-            GunPos.posX, GunPos.posY,
+            DuckPos.posX, DuckPos.posY,
             posX, posY,
             g_canvas.width, g_canvas.height);
 
         if (distSq < closestSq) {
-            closestGun = thisGun;
+            closestDuck = thisDucks;
             closestIndex = i;
             closestSq = distSq;
         }
     }
     return {
-        theGun : closestGun,
+        theDuck : closestDuck,
         theIndex: closestIndex
     };
 },
@@ -87,53 +86,39 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._Ducks, this._bullets, this._Guns];
+    this._categories = [this._Ducks, this._Shots];
 },
 
 init: function() {
     this._generateDucks();
-    //this._generateGun();
+    //this._generateShot();
 },
 
-fireBullet: function(cx, cy, velX, velY, rotation) {
-    this._bullets.push(new Bullet({
-        cx   : cx,
-        cy   : cy,
-        velX : velX,
-        velY : velY,
-
-        rotation : rotation
-    }));
-},
 
 generateDuck : function(descr) {
     this._Ducks.push(new Duck(descr));
 },
 
-generateGun : function(descr) {
-    this._Guns.push(new Gun(descr));
+generateShot : function(descr) {
+    this._Shots.push(new Shot(descr));
 },
 
-killNearestGun : function(xPos, yPos) {
-    var theGun = this._findNearestGun(xPos, yPos).theGun;
-    if (theGun) {
-        theGun.kill();
-    }
+
+SHOOT : function(xPos, yPos) {
+
+    //skjóta og drepa öndina
+    //var theDuck = this._findNearestDuck(xPos, yPos).theDuck;
+
+
+
 },
 
-yoinkNearestGun : function(xPos, yPos) {
-    var theGun = this._findNearestGun(xPos, yPos).theGun;
-    if (theGun) {
-        theGun.setPos(xPos, yPos);
-    }
+resetShots: function() {
+    this._forEachOf(this._Shots, Shot.prototype.reset);
 },
 
-resetGuns: function() {
-    this._forEachOf(this._Guns, Gun.prototype.reset);
-},
-
-haltGuns: function() {
-    this._forEachOf(this._Guns, Gun.prototype.halt);
+haltShots: function() {
+    this._forEachOf(this._Shots, Shot.prototype.halt);
 },
 
 toggleDucks: function() {

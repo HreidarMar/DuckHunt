@@ -46,9 +46,9 @@ var g_ctx = g_canvas.getContext("2d");
 // CREATE INITIAL SHIPS
 // ====================
 
-function createInitialGuns() {
+function createInitialShots() {
 
-    entityManager.generateGun({
+    entityManager.generateShot({
         cx : 200,
         cy : 200
     });
@@ -86,7 +86,7 @@ function updateSimulation(du) {
     entityManager.update(du);
 
     // Prevent perpetual firing!
-    eatKey(Gun.prototype.KEY_FIRE);
+    eatKey(Shot.prototype.KEY_FIRE);
 }
 
 // GAME-SPECIFIC DIAGNOSTICS
@@ -122,26 +122,26 @@ function processDiagnostics() {
 
     if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
 
-    if (eatKey(KEY_HALT)) entityManager.haltGuns();
+    if (eatKey(KEY_HALT)) entityManager.haltShots();
 
-    if (eatKey(KEY_RESET)) entityManager.resetGuns();
+    if (eatKey(KEY_RESET)) entityManager.resetShots();
 
     if (eatKey(KEY_0)) entityManager.toggleDucks();
 
-    if (eatKey(KEY_1)) entityManager.generateGun({
+    if (eatKey(KEY_1)) entityManager.generateShot({
         cx : g_mouseX,
         cy : g_mouseY,
 
-        sprite : g_sprites.Gun});
+        sprite : g_sprites.Shot});
 
-    if (eatKey(KEY_2)) entityManager.generateGun({
+    if (eatKey(KEY_2)) entityManager.generateShot({
         cx : g_mouseX,
         cy : g_mouseY,
 
-        sprite : g_sprites.Gun2
+        sprite : g_sprites.Shot2
         });
 
-    if (eatKey(KEY_K)) entityManager.killNearestGun(
+    if (eatKey(KEY_K)) entityManager.killNearestShot(
         g_mouseX, g_mouseY);
 }
 
@@ -177,9 +177,9 @@ var g_images = {};
 function requestPreloads() {
 
     var requiredImages = {
-        Gun   : "https://notendur.hi.is/~pk/308G/images/ship.png",
-        Gun2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
-        Duck   : "https://notendur.hi.is/~pk/308G/images/rock.png"
+        Shot   : "https://notendur.hi.is/~pk/308G/images/ship.png",
+        Shot2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
+        Duck   : "https://notendur.hi.is/~hrd5/Verkefni%201/myndir/duckhunt_various_sheet.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -189,15 +189,14 @@ var g_sprites = {};
 
 function preloadDone() {
 
-    g_sprites.Gun  = new Sprite(g_images.Gun);
-    g_sprites.Gun2 = new Sprite(g_images.Gun2);
+    g_sprites.Shot  = new Sprite(g_images.Shot);
+    g_sprites.Shot2 = new Sprite(g_images.Shot2);
     g_sprites.Duck  = new Sprite(g_images.Duck);
 
-    g_sprites.bullet = new Sprite(g_images.Gun);
-    g_sprites.bullet.scale = 0.25;
+
 
     entityManager.init();
-    createInitialGuns();
+    createInitialShots();
 
     main.init();
 }
