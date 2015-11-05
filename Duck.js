@@ -20,11 +20,17 @@ function Duck(descr) {
 
     this.randomisePosition();
     this.randomiseVelocity();
-
+    this.counter = 0;
     // Default sprite and scale, if not otherwise specified
     this.sprite = this.sprite || g_sprites.Duck;
     this.scale  = this.scale  || 1;
 
+    this.sprite.imgPosX = 0;
+    this.sprite.imgPosY = 120;
+    this.sprite.imgWidth = 40;
+    this.sprite.imgHeight = 35;
+    this.sprite.imgDestWidth = this.sprite.imgWidth;
+    this.sprite.imgDestHeight = this.sprite.imgHeight;
 /*
     // Diagnostics to check inheritance stuff
     this._DuckProperty = true;
@@ -71,13 +77,41 @@ Duck.prototype.update = function (du) {
   	}
 
     this.cx += this.velX * du;
-    this.cy += this.velY * du;
+  this.cy += this.velY * du;
+  if(this.velX > 0) {
+      this.scale = 1;
+      if(this.counter === 10){
+          if(this.sprite.imgPosX === 80) {
+              this.sprite.imgPosX = 0;
+          }
+          else {
+              this.sprite.imgPosX += 40;
+          }
+      }
+      this.counter++;
+      if(this.counter === 11){
+          this.counter = 0;
+      }
+  }
+  if(this.velX < 0) {
+      this.scale = -1;
+      if(this.counter === 10){
+          if(this.sprite.imgPosX === 80) {
+              this.sprite.imgPosX = 0;
+          }
+          else {
+              this.sprite.imgPosX += 40;
+          }
+      }
+      this.counter++;
+      if(this.counter === 11){
+          this.counter = 0;
+      }
+  }
+  this.rotation = util.wrapRange(this.rotation,
+                                 0, consts.FULL_CIRCLE);
 
-    this.rotation += 1 * this.velRot;
-    this.rotation = util.wrapRange(this.rotation,
-                                   0, consts.FULL_CIRCLE);
-
-    this.wrapPosition();
+  this.wrapPosition();
 
     // TODO: YOUR STUFF HERE! --- (Re-)Register
     spatialManager.register(this);
@@ -85,7 +119,7 @@ Duck.prototype.update = function (du) {
 };
 
 Duck.prototype.getRadius = function () {
-    return 30;
+    return 10;
 };
 
 // HACKED-IN AUDIO (no preloading)

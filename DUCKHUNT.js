@@ -177,7 +177,7 @@ var g_images = {};
 function requestPreloads() {
 
     var requiredImages = {
-        Shot   : "https://notendur.hi.is/~pk/308G/images/ship.png",
+        Shot   : "https://notendur.hi.is/~hrd5/Verkefni%201/myndir/crosshairs.png",
         Shot2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
         Duck   : "https://notendur.hi.is/~hrd5/Verkefni%201/myndir/duckhunt_various_sheet.png"
     };

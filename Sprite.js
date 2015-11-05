@@ -15,59 +15,47 @@
 // Construct a "sprite" from the given `image`,
 //
 function Sprite(image) {
-    this.image = image;
+  this.image = image;
 
-    this.width = image.width;
-    this.height = image.height;
-    this.scale = 1;
+  this.scale = 1;
+
+  this.imgPosX = 0;
+  this.imgPosY = 0;
+  this.imgWidth = 0;
+  this.imgHeight = 0;
 }
 
 Sprite.prototype.drawAt = function (ctx, x, y) {
-    ctx.drawImage(this.image, 
+    ctx.drawImage(this.image,
                   x, y);
 };
 
 Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation) {
     if (rotation === undefined) rotation = 0;
-    
+
     var w = this.width,
         h = this.height;
 
     ctx.save();
     ctx.translate(cx, cy);
     ctx.rotate(rotation);
-    ctx.scale(this.scale, this.scale);
-    
+    ctx.scale(this.scale, Math.abs(this.scale));
+
     // drawImage expects "top-left" coords, so we offset our destination
     // coords accordingly, to draw our sprite centred at the origin
-    ctx.drawImage(this.image, 
-                    0, 0, 50, 50, -25, -25, 50, 50);
-    
-    ctx.restore();
-};  
+    ctx.drawImage(this.image,
+                    this.imgPosX, this.imgPosY, this.imgWidth, this.imgHeight, -this.imgDestWidth/2, -this.imgDestHeight/2, this.imgDestWidth, this.imgDestHeight);
 
-Sprite.prototype.drawWrappedCentredAt = function (ctx, cx, cy, rotation) {
-    
-    // Get "screen width"
-    var sw = g_canvas.width;
-    
-    // Draw primary instance
-    this.drawWrappedVerticalCentredAt(ctx, cx, cy, rotation);
-    
-    // Left and Right wraps
-    this.drawWrappedVerticalCentredAt(ctx, cx - sw, cy, rotation);
-    this.drawWrappedVerticalCentredAt(ctx, cx + sw, cy, rotation);
+    ctx.restore();
 };
 
-Sprite.prototype.drawWrappedVerticalCentredAt = function (ctx, cx, cy, rotation) {
+Sprite.prototype.drawWrappedCentredAt = function (ctx, cx, cy, rotation) {
 
-    // Get "screen height"
-    var sh = g_canvas.height;
-    
+    // Get "screen width"
+    var sw = g_canvas.width;
+
     // Draw primary instance
     this.drawCentredAt(ctx, cx, cy, rotation);
-    
-    // Top and Bottom wraps
-    this.drawCentredAt(ctx, cx, cy - sh, rotation);
-    this.drawCentredAt(ctx, cx, cy + sh, rotation);
+
+
 };
