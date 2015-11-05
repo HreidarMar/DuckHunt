@@ -16,9 +16,7 @@
 //
 function Sprite(image) {
   this.image = image;
-
   this.scale = 1;
-
   this.imgPosX = 0;
   this.imgPosY = 0;
   this.imgWidth = 0;
@@ -50,9 +48,6 @@ Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation) {
 };
 
 Sprite.prototype.drawWrappedCentredAt = function (ctx, cx, cy, rotation) {
-
-    // Get "screen width"
-    var sw = g_canvas.width;
 
     // Draw primary instance
     this.drawCentredAt(ctx, cx, cy, rotation);

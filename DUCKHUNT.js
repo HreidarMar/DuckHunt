@@ -46,11 +46,11 @@ var g_ctx = g_canvas.getContext("2d");
 // CREATE INITIAL SHIPS
 // ====================
 
-function createInitialShots() {
+function createInitialTarget() {
 
     entityManager.generateShot({
-        cx : 200,
-        cy : 200
+        cx : 0,
+        cy : 0
     });
 
 }
@@ -102,14 +102,9 @@ var KEY_AVE_VEL = keyCode('V');
 var KEY_SPATIAL = keyCode('X');
 
 var KEY_HALT  = keyCode('H');
-var KEY_RESET = keyCode('R');
 
 var KEY_0 = keyCode('0');
 
-var KEY_1 = keyCode('1');
-var KEY_2 = keyCode('2');
-
-var KEY_K = keyCode('K');
 
 function processDiagnostics() {
 
@@ -122,27 +117,11 @@ function processDiagnostics() {
 
     if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
 
-    if (eatKey(KEY_HALT)) entityManager.haltShots();
-
-    if (eatKey(KEY_RESET)) entityManager.resetShots();
+    if (eatKey(KEY_HALT)) entityManager.haltDucks();
 
     if (eatKey(KEY_0)) entityManager.toggleDucks();
 
-    if (eatKey(KEY_1)) entityManager.generateShot({
-        cx : g_mouseX,
-        cy : g_mouseY,
 
-        sprite : g_sprites.Shot});
-
-    if (eatKey(KEY_2)) entityManager.generateShot({
-        cx : g_mouseX,
-        cy : g_mouseY,
-
-        sprite : g_sprites.Shot2
-        });
-
-    if (eatKey(KEY_K)) entityManager.killNearestShot(
-        g_mouseX, g_mouseY);
 }
 
 
@@ -178,7 +157,7 @@ function requestPreloads() {
 
     var requiredImages = {
         Shot   : "https://notendur.hi.is/~hrd5/Verkefni%201/myndir/crosshairs.png",
-        Shot2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
+        //Shot2  :
         Duck   : "https://notendur.hi.is/~hrd5/Verkefni%201/myndir/duckhunt_various_sheet.png"
     };
 
@@ -190,13 +169,13 @@ var g_sprites = {};
 function preloadDone() {
 
     g_sprites.Shot  = new Sprite(g_images.Shot);
-    g_sprites.Shot2 = new Sprite(g_images.Shot2);
+    //g_sprites.Shot2 = new Sprite(g_images.Shot2);
     g_sprites.Duck  = new Sprite(g_images.Duck);
 
 
 
     entityManager.init();
-    createInitialShots();
+    createInitialTarget();
 
     main.init();
 }

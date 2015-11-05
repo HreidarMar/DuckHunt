@@ -65,6 +65,11 @@ Duck.prototype.randomiseVelocity = function () {
         util.randRange(MIN_ROT_SPEED, MAX_ROT_SPEED) / SECS_TO_NOMINALS;
 };
 
+Duck.prototype.halt = function () {
+    this.velX = 0;
+    this.velY = 0;
+};
+
 Duck.prototype.update = function (du) {
 
     // TODO: YOUR STUFF HERE! --- Unregister and check for death
@@ -121,16 +126,17 @@ Duck.prototype.update = function (du) {
 Duck.prototype.getRadius = function () {
     return 10;
 };
-
+/*
 // HACKED-IN AUDIO (no preloading)
+Will use this later on
 Duck.prototype.splitSound = new Audio(
   "sounds/rockSplit.ogg");
 Duck.prototype.evaporateSound = new Audio(
   "sounds/rockEvaporate.ogg");
-
+*/
 Duck.prototype.takeBulletHit = function () {
     this.kill();
-
+//Use this later on
   /*  if (this.scale > 0.25) {
         this._spawnFragment();
         this._spawnFragment();

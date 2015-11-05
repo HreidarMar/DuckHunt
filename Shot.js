@@ -18,8 +18,6 @@ function Shot(descr) {
     // Common inherited setup logic from Entity
     this.setup(descr);
 
-
-
     // Default sprite, if not otherwise specified
     this.sprite = this.sprite || g_sprites.Shot;
 
@@ -39,20 +37,16 @@ Shot.prototype = new Entity();
 
 Shot.prototype.update = function (du) {
 
-
-    // TODO: YOUR STUFF HERE! --- Unregister and check for death
     if(g_Shoot){
     spatialManager.unregister(this);
     }
     this.cx = g_mouseX;
     this.cy = g_mouseY;
 
-
-    // TODO: YOUR STUFF HERE! --- Warp if isColliding, otherwise Register
     if(g_Shoot){
     if (this.isColliding()) {
         var theDieingDuck = this.isColliding();
-        theDieingDuck._isDeadNow = true;
+        theDieingDuck.takeBulletHit();
   	}
   	else {
   		spatialManager.register(this);
@@ -61,8 +55,6 @@ Shot.prototype.update = function (du) {
   }
 
 };
-
-
 
 Shot.prototype.getRadius = function () {
     return 5;

@@ -32,7 +32,7 @@ _entities : [],
 // PUBLIC METHODS
 
 getNewSpatialID : function() {
-    // TODO: YOUR STUFF HERE!
+
     return this._nextSpatialID++;
 
 },
@@ -48,36 +48,29 @@ register: function(entity) {
       posY : pos.posY,
       radius : radius,
     }
-    // TODO: YOUR STUFF HERE!
     this._entities[spatialID] = descr;
 
 },
 
 unregister: function(entity) {
     var spatialID = entity.getSpatialID();
-
-    // TODO: YOUR STUFF HERE!
     delete this._entities[spatialID];
 },
 
 findEntityInRange: function(posX, posY, radius) {
 
-    // TODO: YOUR STUFF HERE!
     for(var i=1 ; i < this._entities.length; i++){
       var oneEntity = this._entities[i];
         if(oneEntity){
 
         var distance = Math.sqrt(Math.pow(oneEntity.posX - posX, 2) + Math.pow(oneEntity.posY - posY, 2));
 
-        //console.log(distance);
-        //the limit minus a bit of margin
         var limit = radius + oneEntity.radius;
-        //  console.log(limit);
 
           if(distance < limit){
             //Its a collision!!
-            console.log(distance, limit);
-            console.log(oneEntity.entity);
+          //  console.log(distance, limit);
+          //  console.log(oneEntity.entity);
             return oneEntity.entity;
           }
         }
