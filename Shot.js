@@ -25,6 +25,12 @@ function Shot(descr) {
 
     // Set normal drawing scale, and warp state off
     this._scale = 1;
+    this.sprite.imgPosX = 0;
+    this.sprite.imgPosY = 0;
+    this.sprite.imgWidth = 400;
+    this.sprite.imgHeight = 400;
+    this.sprite.imgDestWidth = 60;
+    this.sprite.imgDestHeight = 60;
 };
 
 Shot.prototype = new Entity();
@@ -35,24 +41,31 @@ Shot.prototype.update = function (du) {
 
 
     // TODO: YOUR STUFF HERE! --- Unregister and check for death
+    if(g_Shoot){
     spatialManager.unregister(this);
+    }
     this.cx = g_mouseX;
     this.cy = g_mouseY;
 
-    // TODO: YOUR STUFF HERE! --- Warp if isColliding, otherwise Register
-    if (this.isColliding()) {
 
+    // TODO: YOUR STUFF HERE! --- Warp if isColliding, otherwise Register
+    if(g_Shoot){
+    if (this.isColliding()) {
+        var theDieingDuck = this.isColliding();
+        theDieingDuck._isDeadNow = true;
   	}
   	else {
   		spatialManager.register(this);
   	}
+    g_Shoot=false;
+  }
 
 };
 
 
 
 Shot.prototype.getRadius = function () {
-    return (this.sprite.width / 2) * 0.9;
+    return 5;
 };
 
 Shot.prototype.render = function (ctx) {

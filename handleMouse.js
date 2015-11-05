@@ -12,7 +12,8 @@
 */
 
 var g_mouseX = 0,
-    g_mouseY = 0;
+    g_mouseY = 0,
+    g_Shoot = false;
 
 function handleMouse(evt) {
 
@@ -23,7 +24,7 @@ function handleMouse(evt) {
     var button = evt.buttons === undefined ? evt.which : evt.buttons;
     if (!button) return;
 
-    entityManager.SHOOT(g_mouseX, g_mouseY);
+    g_Shoot=true;
 
 
 }

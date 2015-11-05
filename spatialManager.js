@@ -71,7 +71,7 @@ findEntityInRange: function(posX, posY, radius) {
 
         //console.log(distance);
         //the limit minus a bit of margin
-        var limit = radius + oneEntity.radius - 1;
+        var limit = radius + oneEntity.radius;
         //  console.log(limit);
 
           if(distance < limit){

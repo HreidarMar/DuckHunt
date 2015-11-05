@@ -91,7 +91,6 @@ deferredSetup : function () {
 
 init: function() {
     this._generateDucks();
-    //this._generateShot();
 },
 
 
@@ -104,14 +103,7 @@ generateShot : function(descr) {
 },
 
 
-SHOOT : function(xPos, yPos) {
 
-    //skjóta og drepa öndina
-    //var theDuck = this._findNearestDuck(xPos, yPos).theDuck;
-
-
-
-},
 
 resetShots: function() {
     this._forEachOf(this._Shots, Shot.prototype.reset);
