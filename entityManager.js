@@ -36,13 +36,13 @@ _bShowDucks : true,
 
 _generateDucks : function() {
     var i,
-        NUM_DuckS = 4;
+        NUM_DuckS = 5;
 
     for (i = 0; i < NUM_DuckS; ++i) {
         this.generateDuck();
     }
 },
-
+/*
 _findNearestDuck : function(posX, posY) {
     var closestDuck = null,
         closestIndex = -1,
@@ -68,6 +68,7 @@ _findNearestDuck : function(posX, posY) {
         theIndex: closestIndex
     };
 },
+*/
 
 _forEachOf: function(aCategory, fn) {
     for (var i = 0; i < aCategory.length; ++i) {
@@ -102,19 +103,12 @@ generateShot : function(descr) {
     this._Shots.push(new Shot(descr));
 },
 
-
-
-
-resetShots: function() {
-    this._forEachOf(this._Shots, Shot.prototype.reset);
-},
-
-haltShots: function() {
-    this._forEachOf(this._Shots, Shot.prototype.halt);
-},
-
 toggleDucks: function() {
     this._bShowDucks = !this._bShowDucks;
+},
+
+haltDucks: function() {
+  this._forEachOf(this._Ducks, Duck.prototype.halt);
 },
 
 update: function(du) {
