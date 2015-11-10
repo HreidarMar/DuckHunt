@@ -23,8 +23,7 @@ function handleMouse(evt) {
     // If no button is being pressed, then bail
     var button = evt.buttons === undefined ? evt.which : evt.buttons;
     if (!button) return;
-
-    g_Shoot=true;
+    else g_Shoot=true;
 
 
 }
