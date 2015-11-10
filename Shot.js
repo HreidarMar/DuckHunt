@@ -29,36 +29,57 @@ function Shot(descr) {
     this.sprite.imgHeight = 400;
     this.sprite.imgDestWidth = 60;
     this.sprite.imgDestHeight = 60;
+
+    this.ammo = 15;
+    this.buffer = 0;
 };
 
 Shot.prototype = new Entity();
 
 // Initial, inheritable, default values
+Shot.prototype.ShotsFired= new Audio(
+  "sounds/ShotsFired.wav");
+
+  Shot.prototype.Reload= new Audio(
+    "sounds/ReloadMotherfucker.mp3");
+
 
 Shot.prototype.update = function (du) {
 
-    if(g_Shoot){
-    spatialManager.unregister(this);
-    }
+    this.buffer=this.buffer-du;
+
     this.cx = g_mouseX;
     this.cy = g_mouseY;
 
-    if(g_Shoot){
-    if (this.isColliding()) {
-        var theDieingDuck = this.isColliding();
-        theDieingDuck.takeBulletHit();
-  	}
-  	else {
-  		spatialManager.register(this);
-  	}
-    g_Shoot=false;
-  }
 
+    if(g_Shoot && this.ammo>0){
+    g_Shoot=false;
+    spatialManager.register(this);
+    if(this.buffer<0){
+    this.buffer=70*du;
+
+    this.ammo = this.ammo-1;
+    var ShotOrDuck = this.isColliding();
+    console.log(ShotOrDuck);
+
+    if (ShotOrDuck instanceof Duck) {
+        ShotOrDuck.takeBulletHit();
+  	}
+
+
+    this.ShotsFired.play();
+
+  }
+  spatialManager.unregister(this);
+
+}
 };
+
 
 Shot.prototype.getRadius = function () {
     return 5;
 };
+
 
 Shot.prototype.render = function (ctx) {
     var origScale = this.sprite.scale;
@@ -68,5 +89,21 @@ Shot.prototype.render = function (ctx) {
 	ctx, this.cx, this.cy, 0
     );
     this.sprite.scale = origScale;
+    ctx.font="20px Georgia";
+    ctx.fillText("You have " +this.ammo+ " shots left",50,50);
+    if(this.buffer>0 && this.ammo!==0){
+      ctx.save();
+      ctx.fillStyle="red";
+      ctx.fillText("RELOADING MOTHERFUCKER",50,80);
+      ctx.restore();
+
+    }
+    if(this.ammo===0){
+      ctx.save();
+      ctx.fillStyle="red";
+      ctx.fillText("OUT OF AMMO",50,80);
+      ctx.restore();
+
+    }
 
 };
