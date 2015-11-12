@@ -85,8 +85,6 @@ function updateSimulation(du) {
 
     entityManager.update(du);
 
-    // Prevent perpetual firing!
-    eatKey(Shot.prototype.KEY_FIRE);
 }
 
 // GAME-SPECIFIC DIAGNOSTICS

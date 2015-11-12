@@ -153,6 +153,8 @@ update: function(du) {
 
     this.counterPose++;
 
+    main.timePasses(du);
+
 },
 
 render: function(ctx) {

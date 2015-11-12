@@ -8,16 +8,6 @@
 
 var util = {
 
-  //Time stuff
-
-timepasses: function(du) {
-  g_gameTime = g_gameTime - du/60;
-  if(g_gameTime<1) main.gameOver();
-  },
-
-
-
-
 // RANGES
 // ======
 
