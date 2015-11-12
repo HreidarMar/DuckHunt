@@ -26,12 +26,12 @@ function Duck(descr) {
 
     this.cy = g_canvas.height - 30;
 
-    this.sprite.imgPosX = 0;
-    this.sprite.imgPosY = 120;
-    this.sprite.imgWidth = 40;
-    this.sprite.imgHeight = 35;
-    this.sprite.imgDestWidth = this.sprite.imgWidth;
-    this.sprite.imgDestHeight = this.sprite.imgHeight;
+    this.imgPosX = 0;
+    this.imgPosY = 120;
+    this.imgWidth = 40;
+    this.imgHeight = 35;
+    this.imgDestWidth = this.imgWidth;
+    this.imgDestHeight = this.imgHeight;
 /*
     // Diagnostics to check inheritance stuff
     this._DuckProperty = true;
@@ -82,22 +82,22 @@ Duck.prototype.update = function (du) {
     if(this.velX > 0) {
       this.scale = 1;
       if(entityManager.updateDuckPose()){
-          if(this.sprite.imgPosX === 80) {
-              this.sprite.imgPosX = 0;
+          if(this.imgPosX === 80) {
+              this.imgPosX = 0;
           }
           else {
-              this.sprite.imgPosX += 40;
+              this.imgPosX += 40;
           }
       }
   }
   if(this.velX < 0) {
       this.scale = -1;
       if(entityManager.updateDuckPose()){
-          if(this.sprite.imgPosX === 80) {
-              this.sprite.imgPosX = 0;
+          if(this.imgPosX === 80) {
+              this.imgPosX = 0;
           }
           else {
-              this.sprite.imgPosX += 40;
+              this.imgPosX += 40;
           }
       }
   }
@@ -148,6 +148,6 @@ Duck.prototype.render = function (ctx) {
     // pass my scale into the sprite, for drawing
     this.sprite.scale = this.scale;
     this.sprite.drawWrappedCentredAt(
-        ctx, this.cx, this.cy, this.rotation
+        ctx, this.cx, this.cy, this.rotation, this.imgPosX, this.imgPosY, this.imgWidth, this.imgHeight, this.imgDestWidth, this.imgDestHeight
     );
 };
