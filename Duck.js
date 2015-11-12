@@ -20,10 +20,11 @@ function Duck(descr) {
 
     this.randomisePosition();
     this.randomiseVelocity();
-    this.counter = 0;
     // Default sprite and scale, if not otherwise specified
     this.sprite = this.sprite || g_sprites.Duck;
     this.scale  = this.scale  || 1;
+
+    this.cy = g_canvas.height - 30;
 
     this.sprite.imgPosX = 0;
     this.sprite.imgPosY = 120;
@@ -56,7 +57,7 @@ Duck.prototype.randomiseVelocity = function () {
     var dirn = Math.random() * consts.FULL_CIRCLE;
 
     this.velX = this.velX || speed * Math.cos(dirn);
-    this.velY = this.velY || speed * Math.sin(dirn);
+    this.velY = -Math.abs(this.velY || speed * Math.sin(dirn));
 
     var MIN_ROT_SPEED = 0.5,
         MAX_ROT_SPEED = 2.5;
@@ -82,25 +83,21 @@ Duck.prototype.update = function (du) {
   	}
 
     this.cx += this.velX * du;
-  this.cy += this.velY * du;
-  if(this.velX > 0) {
+    this.cy += this.velY * du;
+    if(this.velX > 0) {
       this.scale = 1;
-      if(this.counter === 10){
+      if(entityManager.updateDuckPose()){
           if(this.sprite.imgPosX === 80) {
               this.sprite.imgPosX = 0;
           }
           else {
               this.sprite.imgPosX += 40;
           }
-      }
-      this.counter++;
-      if(this.counter === 11){
-          this.counter = 0;
       }
   }
   if(this.velX < 0) {
       this.scale = -1;
-      if(this.counter === 10){
+      if(entityManager.updateDuckPose()){
           if(this.sprite.imgPosX === 80) {
               this.sprite.imgPosX = 0;
           }
@@ -108,11 +105,8 @@ Duck.prototype.update = function (du) {
               this.sprite.imgPosX += 40;
           }
       }
-      this.counter++;
-      if(this.counter === 11){
-          this.counter = 0;
-      }
   }
+
   this.rotation = util.wrapRange(this.rotation,
                                  0, consts.FULL_CIRCLE);
 
