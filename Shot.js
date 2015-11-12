@@ -23,15 +23,16 @@ function Shot(descr) {
 
     // Set normal drawing scale, and warp state off
     this._scale = 1;
-    this.sprite.imgPosX = 0;
-    this.sprite.imgPosY = 0;
-    this.sprite.imgWidth = 400;
-    this.sprite.imgHeight = 400;
-    this.sprite.imgDestWidth = 60;
-    this.sprite.imgDestHeight = 60;
+    this.imgPosX = 0;
+    this.imgPosY = 0;
+    this.imgWidth = 400;
+    this.imgHeight = 400;
+    this.imgDestWidth = 60;
+    this.imgDestHeight = 60;
 
     this.ammo = 15;
     this.buffer = 0;
+    this.scores = 0;
 };
 
 Shot.prototype = new Entity();
@@ -40,7 +41,7 @@ Shot.prototype = new Entity();
 Shot.prototype.ShotsFired= new Audio(
   "sounds/ShotsFired.wav");
 
-  Shot.prototype.Reload= new Audio(
+Shot.prototype.Reload= new Audio(
     "sounds/ReloadMotherfucker.mp3");
 
 
@@ -54,23 +55,23 @@ Shot.prototype.update = function (du) {
 
     if(g_Shoot && this.ammo>0){
     g_Shoot=false;
-  //  spatialManager.register(this);
     if(this.buffer<0){
     this.buffer=70*du;
     this.ammo = this.ammo-1;
-    if (this.isColliding()) {
-      var TheDieingDuck = this.isColliding();
-      //console.log(TheDieingDuck);
+    if (this.isItAHit()) {
+      var TheDieingDuck = this.isItAHit();
       TheDieingDuck.takeBulletHit();
+      this.scores++;
   	}
 
 
     this.ShotsFired.play();
+    this.Reload.play();
 
   }
-//  spatialManager.unregister(this);
-
 }
+util.timepasses(du);
+
 };
 
 
@@ -84,10 +85,11 @@ Shot.prototype.render = function (ctx) {
     // pass my scale into the sprite, for drawing
     this.sprite.scale = this._scale;
     this.sprite.drawWrappedCentredAt(
-	ctx, this.cx, this.cy, 0
+        ctx, this.cx, this.cy, 0, this.imgPosX, this.imgPosY, this.imgWidth, this.imgHeight, this.imgDestWidth, this.imgDestHeight
     );
     this.sprite.scale = origScale;
     ctx.font="20px Georgia";
+    ctx.fillText("Your score is " +this.scores+ " and the time left is "+ Math.floor(g_gameTime),50,20);
     ctx.fillText("You have " +this.ammo+ " shots left",50,50);
     if(this.buffer>0 && this.ammo!==0){
       ctx.save();

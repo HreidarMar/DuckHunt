@@ -75,11 +75,12 @@ Entity.prototype.findHitEntity = function () {
 };
 
 // This is just little "convenience wrapper"
-Entity.prototype.isColliding = function () {
+Entity.prototype.isItAHit = function () {
     return this.findHitEntity();
 };
 
-Entity.prototype.wrapPosition = function () {
-    this.cx = util.wrapRange(this.cx, 0, g_canvas.width);
-    this.cy = util.wrapRange(this.cy, 0, g_canvas.height);
+Entity.prototype.outOfBondsLittleDuckie = function () {
+    var margin=10;
+    if(-margin>this.cx || this.cx>g_canvas.width+margin) this.kill();
+    if(-margin>this.cy || this.cy>g_canvas.height+margin) this.kill();
 };

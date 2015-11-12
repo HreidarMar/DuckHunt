@@ -157,7 +157,7 @@ function requestPreloads() {
 
     var requiredImages = {
         Shot   : "https://notendur.hi.is/~hrd5/Verkefni%201/myndir/crosshairs.png",
-        Gun :    "https://notendur.hi.is/~hrd5/Verkefni%201/myndir/Doublebarrel.png",
+        //Shot2  :
         Duck   : "https://notendur.hi.is/~hrd5/Verkefni%201/myndir/duckhunt_various_sheet.png"
     };
 
@@ -169,7 +169,7 @@ var g_sprites = {};
 function preloadDone() {
 
     g_sprites.Shot  = new Sprite(g_images.Shot);
-    g_sprites.Gun = new Sprite(g_images.Gun);
+    //g_sprites.Shot2 = new Sprite(g_images.Shot2);
     g_sprites.Duck  = new Sprite(g_images.Duck);
 
 

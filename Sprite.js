@@ -17,10 +17,7 @@
 function Sprite(image) {
   this.image = image;
   this.scale = 1;
-  this.imgPosX = 0;
-  this.imgPosY = 0;
-  this.imgWidth = 0;
-  this.imgHeight = 0;
+  
 }
 
 Sprite.prototype.drawAt = function (ctx, x, y) {
@@ -28,7 +25,7 @@ Sprite.prototype.drawAt = function (ctx, x, y) {
                   x, y);
 };
 
-Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation) {
+Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation, imgPosX, imgPosY, imgWidth, imgHeight, imgDestWidth, imgDestHeight) {
     if (rotation === undefined) rotation = 0;
 
     var w = this.width,
@@ -41,16 +38,15 @@ Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation) {
 
     // drawImage expects "top-left" coords, so we offset our destination
     // coords accordingly, to draw our sprite centred at the origin
-    ctx.drawImage(this.image,
-                    this.imgPosX, this.imgPosY, this.imgWidth, this.imgHeight, -this.imgDestWidth/2, -this.imgDestHeight/2, this.imgDestWidth, this.imgDestHeight);
+    ctx.drawImage(this.image, imgPosX, imgPosY, imgWidth, imgHeight, -imgDestWidth/2, -imgDestHeight/2, imgDestWidth, imgDestHeight);
 
     ctx.restore();
 };
 
-Sprite.prototype.drawWrappedCentredAt = function (ctx, cx, cy, rotation) {
+Sprite.prototype.drawWrappedCentredAt = function (ctx, cx, cy, rotation, imgPosX, imgPosY, imgWidth, imgHeight, imgDestWidth, imgDestHeight) {
 
     // Draw primary instance
-    this.drawCentredAt(ctx, cx, cy, rotation);
+  this.drawCentredAt(ctx, cx, cy, rotation, imgPosX, imgPosY, imgWidth, imgHeight, imgDestWidth, imgDestHeight);
 
 
 };

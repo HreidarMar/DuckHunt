@@ -26,12 +26,12 @@ function Duck(descr) {
 
     this.cy = g_canvas.height - 30;
 
-    this.sprite.imgPosX = 0;
-    this.sprite.imgPosY = 120;
-    this.sprite.imgWidth = 40;
-    this.sprite.imgHeight = 35;
-    this.sprite.imgDestWidth = this.sprite.imgWidth;
-    this.sprite.imgDestHeight = this.sprite.imgHeight;
+    this.imgPosX = 0;
+    this.imgPosY = 120;
+    this.imgWidth = 40;
+    this.imgHeight = 35;
+    this.imgDestWidth = this.imgWidth;
+    this.imgDestHeight = this.imgHeight;
 /*
     // Diagnostics to check inheritance stuff
     this._DuckProperty = true;
@@ -50,8 +50,8 @@ Duck.prototype.randomisePosition = function () {
 };
 
 Duck.prototype.randomiseVelocity = function () {
-    var MIN_SPEED = 20,
-        MAX_SPEED = 70;
+    var MIN_SPEED = 150,
+        MAX_SPEED = 250;
 
     var speed = util.randRange(MIN_SPEED, MAX_SPEED) / SECS_TO_NOMINALS;
     var dirn = Math.random() * consts.FULL_CIRCLE;
@@ -59,11 +59,6 @@ Duck.prototype.randomiseVelocity = function () {
     this.velX = this.velX || speed * Math.cos(dirn);
     this.velY = -Math.abs(this.velY || speed * Math.sin(dirn));
 
-    var MIN_ROT_SPEED = 0.5,
-        MAX_ROT_SPEED = 2.5;
-
-    this.velRot = this.velRot ||
-        util.randRange(MIN_ROT_SPEED, MAX_ROT_SPEED) / SECS_TO_NOMINALS;
 };
 
 Duck.prototype.halt = function () {
@@ -87,33 +82,32 @@ Duck.prototype.update = function (du) {
     if(this.velX > 0) {
       this.scale = 1;
       if(entityManager.updateDuckPose()){
-          if(this.sprite.imgPosX === 80) {
-              this.sprite.imgPosX = 0;
+          if(this.imgPosX === 80) {
+              this.imgPosX = 0;
           }
           else {
-              this.sprite.imgPosX += 40;
+              this.imgPosX += 40;
           }
       }
   }
   if(this.velX < 0) {
       this.scale = -1;
       if(entityManager.updateDuckPose()){
-          if(this.sprite.imgPosX === 80) {
-              this.sprite.imgPosX = 0;
+          if(this.imgPosX === 80) {
+              this.imgPosX = 0;
           }
           else {
-              this.sprite.imgPosX += 40;
+              this.imgPosX += 40;
           }
       }
   }
 
-  this.rotation = util.wrapRange(this.rotation,
-                                 0, consts.FULL_CIRCLE);
 
-  this.wrapPosition();
 
-    // TODO: YOUR STUFF HERE! --- (Re-)Register
-    spatialManager.register(this);
+  this.outOfBondsLittleDuckie();
+
+  // TODO: YOUR STUFF HERE! --- (Re-)Register
+  spatialManager.register(this);
 
 };
 
@@ -154,6 +148,6 @@ Duck.prototype.render = function (ctx) {
     // pass my scale into the sprite, for drawing
     this.sprite.scale = this.scale;
     this.sprite.drawWrappedCentredAt(
-        ctx, this.cx, this.cy, this.rotation
+        ctx, this.cx, this.cy, this.rotation, this.imgPosX, this.imgPosY, this.imgWidth, this.imgHeight, this.imgDestWidth, this.imgDestHeight
     );
 };
