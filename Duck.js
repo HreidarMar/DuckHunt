@@ -50,8 +50,8 @@ Duck.prototype.randomisePosition = function () {
 };
 
 Duck.prototype.randomiseVelocity = function () {
-    var MIN_SPEED = 20,
-        MAX_SPEED = 70;
+    var MIN_SPEED = 150,
+        MAX_SPEED = 250;
 
     var speed = util.randRange(MIN_SPEED, MAX_SPEED) / SECS_TO_NOMINALS;
     var dirn = Math.random() * consts.FULL_CIRCLE;
@@ -59,11 +59,6 @@ Duck.prototype.randomiseVelocity = function () {
     this.velX = this.velX || speed * Math.cos(dirn);
     this.velY = -Math.abs(this.velY || speed * Math.sin(dirn));
 
-    var MIN_ROT_SPEED = 0.5,
-        MAX_ROT_SPEED = 2.5;
-
-    this.velRot = this.velRot ||
-        util.randRange(MIN_ROT_SPEED, MAX_ROT_SPEED) / SECS_TO_NOMINALS;
 };
 
 Duck.prototype.halt = function () {
@@ -107,13 +102,12 @@ Duck.prototype.update = function (du) {
       }
   }
 
-  this.rotation = util.wrapRange(this.rotation,
-                                 0, consts.FULL_CIRCLE);
 
-  this.wrapPosition();
 
-    // TODO: YOUR STUFF HERE! --- (Re-)Register
-    spatialManager.register(this);
+  this.outOfBondsLittleDuckie();
+
+  // TODO: YOUR STUFF HERE! --- (Re-)Register
+  spatialManager.register(this);
 
 };
 

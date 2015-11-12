@@ -8,6 +8,15 @@
 
 var util = {
 
+  //Time stuff
+
+timepasses: function(du) {
+  g_gameTime = g_gameTime - du/60;
+  if(g_gameTime<1) main.gameOver();
+  },
+
+
+
 
 // RANGES
 // ======
@@ -79,7 +88,7 @@ wrappedDistSq: function(x1, y1, x2, y2, xWrap, yWrap) {
 
 clearCanvas: function (ctx) {
     ctx.save();
-    
+
     // drawImage expects "top-left" coords, so we offset our destination
     // coords accordingly, to draw our sprite centred at the origin
     var img = new Image;
