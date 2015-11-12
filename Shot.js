@@ -54,23 +54,21 @@ Shot.prototype.update = function (du) {
 
     if(g_Shoot && this.ammo>0){
     g_Shoot=false;
-    spatialManager.register(this);
+  //  spatialManager.register(this);
     if(this.buffer<0){
     this.buffer=70*du;
-
     this.ammo = this.ammo-1;
-    var ShotOrDuck = this.isColliding();
-    console.log(ShotOrDuck);
-
-    if (ShotOrDuck instanceof Duck) {
-        ShotOrDuck.takeBulletHit();
+    if (this.isColliding()) {
+      var TheDieingDuck = this.isColliding();
+      //console.log(TheDieingDuck);
+      TheDieingDuck.takeBulletHit();
   	}
 
 
     this.ShotsFired.play();
 
   }
-  spatialManager.unregister(this);
+//  spatialManager.unregister(this);
 
 }
 };

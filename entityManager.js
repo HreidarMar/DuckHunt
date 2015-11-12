@@ -32,11 +32,14 @@ _Shots   : [],
 
 _bShowDucks : true,
 
+counter : 0,
+counterPose : 0,
+
 // "PRIVATE" METHODS
 
 _generateDucks : function() {
     var i,
-        NUM_DuckS = 5;
+        NUM_DuckS = 1;
 
     for (i = 0; i < NUM_DuckS; ++i) {
         this.generateDuck();
@@ -111,6 +114,13 @@ haltDucks: function() {
   this._forEachOf(this._Ducks, Duck.prototype.halt);
 },
 
+updateDuckPose: function() {
+    if(this.counterPose % 10 === 0) {
+        return true;
+    }
+    return false;
+},
+
 update: function(du) {
 
     for (var c = 0; c < this._categories.length; ++c) {
@@ -133,7 +143,14 @@ update: function(du) {
         }
     }
 
-    if (this._Ducks.length === 0) this._generateDucks();
+    if (this.counter === 300) {
+        this._generateDucks();
+        this.counter = 0;
+    }
+
+    this.counter++;
+
+    this.counterPose++;
 
 },
 
