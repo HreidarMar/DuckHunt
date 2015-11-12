@@ -32,6 +32,7 @@ function Shot(descr) {
 
     this.ammo = 15;
     this.buffer = 0;
+    this.scores = 0;
 };
 
 Shot.prototype = new Entity();
@@ -40,7 +41,7 @@ Shot.prototype = new Entity();
 Shot.prototype.ShotsFired= new Audio(
   "sounds/ShotsFired.wav");
 
-  Shot.prototype.Reload= new Audio(
+Shot.prototype.Reload= new Audio(
     "sounds/ReloadMotherfucker.mp3");
 
 
@@ -54,23 +55,23 @@ Shot.prototype.update = function (du) {
 
     if(g_Shoot && this.ammo>0){
     g_Shoot=false;
-  //  spatialManager.register(this);
     if(this.buffer<0){
     this.buffer=70*du;
     this.ammo = this.ammo-1;
-    if (this.isColliding()) {
-      var TheDieingDuck = this.isColliding();
-      //console.log(TheDieingDuck);
+    if (this.isItAHit()) {
+      var TheDieingDuck = this.isItAHit();
       TheDieingDuck.takeBulletHit();
+      this.scores++;
   	}
 
 
     this.ShotsFired.play();
+    this.Reload.play();
 
   }
-//  spatialManager.unregister(this);
-
 }
+util.timepasses(du);
+
 };
 
 
@@ -88,6 +89,7 @@ Shot.prototype.render = function (ctx) {
     );
     this.sprite.scale = origScale;
     ctx.font="20px Georgia";
+    ctx.fillText("Your score is " +this.scores+ " and the time left is "+ Math.floor(g_gameTime),50,20);
     ctx.fillText("You have " +this.ammo+ " shots left",50,50);
     if(this.buffer>0 && this.ammo!==0){
       ctx.save();
