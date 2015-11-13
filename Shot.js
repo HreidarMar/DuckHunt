@@ -55,7 +55,7 @@ Shot.prototype.update = function (du) {
     if(g_Shoot && this.ammo>0){
     g_Shoot=false;
     if(this.buffer<0){
-    this.buffer=70*du;
+    this.buffer=30*du;
     this.ammo = this.ammo-1;
     if (this.isItAHit()) {
       var TheDieingDuck = this.isItAHit();
@@ -64,7 +64,7 @@ Shot.prototype.update = function (du) {
   	}
 
     this.ShotsFired.play();
-    this.Reload.play();
+    //this.Reload.play();
 
   }
 }
@@ -92,7 +92,7 @@ Shot.prototype.render = function (ctx) {
     if(this.buffer>0 && this.ammo!==0){
       ctx.save();
       ctx.fillStyle="red";
-      ctx.fillText("RELOADING MOTHERFUCKER",50,80);
+      ctx.fillText("RELOADING",50,80);
       ctx.restore();
 
     }
