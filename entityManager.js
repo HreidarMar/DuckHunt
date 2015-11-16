@@ -32,7 +32,7 @@ _Shots   : [],
 
 _bShowDucks : true,
 
-counter : 0,
+counter : 60,
 counterPose : 0,
 poseSpeed : 0,
 
@@ -155,12 +155,12 @@ update: function(du) {
         }
     }
 
-    if (this.counter === 300) {
+    if (this.counter === 0) {
         this._generateDucks();
-        this.counter = 0;
+        this.counter = Math.floor(util.randRange(100, 240));
     }
 
-    this.counter++;
+    this.counter--;
 
     this.counterPose++;
 
