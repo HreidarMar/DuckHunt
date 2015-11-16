@@ -19,12 +19,14 @@ function Duck(descr) {
     this.setup(descr);
 
     this.randomisePosition();
-    this.randomiseVelocity();
+    this.randomiseVelocityY();
     // Default sprite and scale, if not otherwise specified
     this.sprite = this.sprite || g_sprites.Duck;
     this.scale  = this.scale  || 1;
 
     this.cy = g_canvas.height - 30;
+
+    this.flightUpCounter = util.randRange(30, 50);
 
     this.imgPosX = 0;
     this.imgPosY = 120;
@@ -49,8 +51,12 @@ Duck.prototype.randomisePosition = function () {
     this.rotation = this.rotation || 0;
 };
 
-Duck.prototype.randomiseVelocity = function () {
-    var MIN_SPEED = 150,
+Duck.prototype.randomiseVelocityY = function () {
+    
+    this.velY = -util.randRange(1,5);
+    this.velX = this.velY/5;
+    entityManager.setPoseSpeed(Math.abs(Math.floor(10/this.velY)));
+    /*var MIN_SPEED = 150,
         MAX_SPEED = 250;
 
     var speed = util.randRange(MIN_SPEED, MAX_SPEED) / SECS_TO_NOMINALS;
@@ -58,7 +64,23 @@ Duck.prototype.randomiseVelocity = function () {
 
     this.velX = this.velX || speed * Math.cos(dirn);
     this.velY = -Math.abs(this.velY || speed * Math.sin(dirn));
+*/
+};
 
+Duck.prototype.randomiseVelocityX = function () {
+    
+    this.velX = util.randRange(1,5);
+    this.velY = -this.velX/5;
+    entityManager.setPoseSpeed(Math.abs(Math.floor(10/this.velX)));
+    /*var MIN_SPEED = 150
+        MAX_SPEED = 250;
+
+    var speed = util.randRange(MIN_SPEED, MAX_SPEED) / SECS_TO_NOMINALS;
+    var dirn = Math.random() * consts.FULL_CIRCLE;
+
+    this.velX = this.velX || speed * Math.cos(dirn);
+    this.velY = -Math.abs(this.velY || speed * Math.sin(dirn));
+*/
 };
 
 Duck.prototype.halt = function () {
@@ -79,30 +101,52 @@ Duck.prototype.update = function (du) {
 
     this.cx += this.velX * du;
     this.cy += this.velY * du;
-    if(this.velX > 0) {
-      this.scale = 1;
-      if(entityManager.updateDuckPose()){
+    if(Math.abs(this.velX) > Math.abs(this.velY)){
+      if(this.velX > 0) {
+        this.scale = 1;
+        this.imgPosY = 120;
+        if(entityManager.updateDuckPose()){
           if(this.imgPosX === 80) {
-              this.imgPosX = 0;
+            this.imgPosX = 0;
           }
           else {
-              this.imgPosX += 40;
+            this.imgPosX += 40;
+          }
+        }
+      }
+      if(this.velX < 0) {
+          this.scale = -1;
+          this.imgPosY = 120;
+          if(entityManager.updateDuckPose()){
+              if(this.imgPosX === 80) {
+                  this.imgPosX = 0;
+              }
+              else {
+                  this.imgPosX += 40;
+              }
           }
       }
-  }
-  if(this.velX < 0) {
-      this.scale = -1;
-      if(entityManager.updateDuckPose()){
-          if(this.imgPosX === 80) {
-              this.imgPosX = 0;
-          }
-          else {
-              this.imgPosX += 40;
-          }
-      }
+    }
+    else{
+        this.scale = 1;
+        this.imgPosY = 190;
+        if(entityManager.updateDuckPose()){
+            if(this.imgPosX === 80) {
+                this.imgPosX = 0;
+            }
+            else {
+                this.imgPosX += 40;
+            }
+        }
+    }
+  
+
+  if(this.flightUpCounter < 0) {
+    this.randomiseVelocityX();
+    this.flightUpCounter = util.randRange(10, 30);
   }
 
-
+  this.flightUpCounter--;
 
   this.outOfBondsLittleDuckie();
 

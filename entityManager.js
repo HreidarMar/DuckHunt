@@ -34,6 +34,7 @@ _bShowDucks : true,
 
 counter : 0,
 counterPose : 0,
+poseSpeed : 0,
 
 // "PRIVATE" METHODS
 
@@ -79,6 +80,10 @@ _forEachOf: function(aCategory, fn) {
     }
 },
 
+setPoseSpeed: function(num) {
+    this.poseSpeed = num;
+},
+
 // PUBLIC METHODS
 
 // A special return value, used by other objects,
@@ -115,14 +120,18 @@ haltDucks: function() {
 },
 
 updateDuckPose: function() {
-    if(this.counterPose % 10 === 0) {
+    if(this.counterPose > this.poseSpeed) {
+        this.counterPose = 0;
         return true;
     }
     return false;
 },
 
+
 update: function(du) {
 
+    console.log(this.poseSpeed);
+    console.log(this.counterPose);
     for (var c = 0; c < this._categories.length; ++c) {
 
         var aCategory = this._categories[c];
@@ -136,7 +145,9 @@ update: function(du) {
             if (status === this.KILL_ME_NOW) {
                 // remove the dead guy, and shuffle the others down to
                 // prevent a confusing gap from appearing in the array
+                
                 aCategory.splice(i,1);
+             
             }
             else {
                 ++i;

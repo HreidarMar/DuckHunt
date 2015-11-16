@@ -85,7 +85,7 @@ clearCanvas: function (ctx) {
     img.onload = function(){
         ctx.drawImage(img,0,0); // Or at whatever offset you like
     };
-    img.src = 'https://notendur.hi.is/~hrd5/Verkefni%201/myndir/background.png';
+    img.src = 'background.png';
 },
 
 strokeCircle: function (ctx, x, y, r) {

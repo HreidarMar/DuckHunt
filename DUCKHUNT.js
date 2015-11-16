@@ -130,9 +130,9 @@ var g_images = {};
 function requestPreloads() {
 
     var requiredImages = {
-        Shot   : "https://notendur.hi.is/~hrd5/Verkefni%201/myndir/crosshairs.png",
+        Shot   : "crosshairs.png",
         //Shot2  :
-        Duck   : "https://notendur.hi.is/~hrd5/Verkefni%201/myndir/duckhunt_various_sheet.png"
+        Duck   : "duckhunt_various_sheet.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
