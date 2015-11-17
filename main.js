@@ -83,18 +83,36 @@ main.timePasses = function (du) {
 main._isGameOver = false;
 
 main.gameOver = function () {
-    ctx.textAlign="center";
-    ctx.font = "50px Arial";
-    ctx.fillStyle = 'red';
-    ctx.fillText("GAME OVER",500,250);
+  ctx.textAlign="center";
+  ctx.font = "50px Arial";
+  ctx.fillStyle = 'red';
+  ctx.fillText("GAME OVER",500,250);
 
-    ctx.fillStyle = 'black';
-    ctx.font = "20px Arial";
+  ctx.fillStyle = 'black';
+  ctx.font = "20px Arial";
 
-    ctx.fillText("Your score is "+g_Score,500,290);
-    ctx.fillText("REFRESH PAGE FOR A NEW GAME",500,320);
-    this._isGameOver = true;
-    console.log("gameOver: quitting...");
+  ctx.fillText("Your score is "+ g_Score,500,290);
+
+
+//localStorage.removeItem("DuckHunt_highscore");
+
+
+
+if (g_Score > g_HighScore) {
+  localStorage.setItem("DuckHunt_highscore", g_Score );
+}
+g_HighScore = localStorage.getItem("DuckHunt_highscore");
+ctx.fillText("The highscore is: " + g_HighScore,500,320);
+
+
+
+
+
+
+
+  ctx.fillText("REFRESH PAGE FOR A NEW GAME",500,500);
+  this._isGameOver = true;
+  console.log("gameOver: quitting...");
 };
 
 // Simple voluntary quit mechanism
