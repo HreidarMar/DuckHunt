@@ -24,7 +24,7 @@ function Duck(descr) {
     this.randomiseUpFlight();
     // Default sprite and scale, if not otherwise specified
     this.sprite = this.sprite || g_sprites.Duck;
-    this.scale  = this.scale  || 1;
+    this.scale  = util.randRange(0.5,2.5);
 
     this.cy = g_canvas.height - 30;
 
@@ -38,9 +38,10 @@ function Duck(descr) {
     this.imgDestWidth = this.imgWidth;
     this.imgDestHeight = this.imgHeight;
 
-    this.deathAnimationCounter = 7;
-    
+    this.deathAnimationCounter = 15;
+
     this.randomiseColor();
+    this.DuckType;
 /*
     // Diagnostics to check inheritance stuff
     this._DuckProperty = true;
@@ -53,9 +54,8 @@ Duck.prototype = new Entity();
 
 Duck.prototype.randomisePosition = function () {
     // Duck randomisation defaults (if nothing otherwise specified)
-    this.cx = this.cx || Math.random() * g_canvas.width;
-    this.cy = this.cy || Math.random() * g_canvas.height;
-    this.rotation = this.rotation || 0;
+    var marginForStartPosition = 100;
+    this.cx = this.cx || util.randRange(0 + marginForStartPosition,g_canvas.width - marginForStartPosition);
 };
 
 Duck.prototype.randomiseColor = function () {
@@ -65,22 +65,25 @@ Duck.prototype.randomiseColor = function () {
       case 1:
         this.imgPosX = 0;
         this.colorXVal = 0;
+        this.DuckType = "blue";
         break;
       case 2:
         this.imgPosX = 130;
         this.colorXVal = 130;
+        this.DuckType = "black";
         break;
       case 3:
         this.imgPosX = 255;
-        this.colorXVal = 255; 
+        this.colorXVal = 255;
+        this.DuckType = "red";
         break;
     }
-    
+
 };
 
 
 Duck.prototype.randomiseUpFlight = function () {
-    
+
     this.velY = -util.randRange(1,5);
     this.velX = 0;
     entityManager.setPoseSpeed(Math.abs(Math.floor(10/this.velY)));
@@ -96,14 +99,14 @@ Duck.prototype.randomiseUpFlight = function () {
 };
 
 Duck.prototype.randomiseVelocity = function () {
-    
+
     if(this.negOrPosVelX) {
-      this.velX = util.randRange(1,5);
-      this.velY = -util.randRange(1,5);
+      this.velX = util.randRange(1,4)*Math.abs(this.scale);
+      this.velY = -util.randRange(1,4)*Math.abs(this.scale);
     }
     else {
-      this.velX = -util.randRange(1,5);
-      this.velY = -util.randRange(1,5);
+      this.velX = -util.randRange(1,4)*Math.abs(this.scale);
+      this.velY = -util.randRange(1,4)*Math.abs(this.scale);
     }
     entityManager.setPoseSpeed(Math.abs(Math.floor(20/(Math.abs(this.velX)+Math.abs(this.velY)))));
     /*var MIN_SPEED = 150
@@ -124,7 +127,6 @@ Duck.prototype.halt = function () {
 
 Duck.prototype.update = function (du) {
 
-    // TODO: YOUR STUFF HERE! --- Unregister and check for death
     spatialManager.unregister(this);
 
   	if (this._isDeadNow) {
@@ -136,7 +138,7 @@ Duck.prototype.update = function (du) {
     this.cx += this.velX * du;
     this.cy += this.velY * du;
     if(this.isDead) {
-      if(this.deathAnimationCounter === 7) {
+      if(this.deathAnimationCounter > 10) {
         this.produceSplatter();
       }
       if(this.deathAnimationCounter > 0) {
@@ -154,7 +156,7 @@ Duck.prototype.update = function (du) {
     else{
       if(Math.abs(this.velX) > Math.abs(this.velY)){
         if(this.velX > 0) {
-          this.scale = 1;
+          if(this.scale<0) this.scale *= -1;
           this.imgPosY = 120;
           if(entityManager.updateDuckPose()){
             if(this.imgPosX === 80 || this.imgPosX === 210 || this.imgPosX === 335) {
@@ -166,7 +168,7 @@ Duck.prototype.update = function (du) {
           }
         }
         if(this.velX <= 0) {
-            this.scale = -1;
+          if(this.scale>0) this.scale *= -1;
             this.imgPosY = 120;
             if(entityManager.updateDuckPose()){
                 if(this.imgPosX === 80 || this.imgPosX === 210 || this.imgPosX === 335) {
@@ -179,7 +181,8 @@ Duck.prototype.update = function (du) {
         }
       }
       else if(this.velX === 0){
-          this.scale = 1;
+        if(this.scale<0) this.scale *= -1;
+
           this.imgPosY = 190;
           if(entityManager.updateDuckPose()){
               if(this.imgPosX === 80 || this.imgPosX === 210 || this.imgPosX === 335) {
@@ -192,7 +195,8 @@ Duck.prototype.update = function (du) {
       }
       else if(Math.abs(this.velX) <= Math.abs(this.velY)){
         if(this.velX > 0) {
-          this.scale = 1;
+          if(this.scale<0) this.scale *= -1;
+
           this.imgPosY = 155;
           if(entityManager.updateDuckPose()){
             if(this.imgPosX === 80 || this.imgPosX === 210 || this.imgPosX === 335) {
@@ -204,7 +208,8 @@ Duck.prototype.update = function (du) {
           }
         }
         if(this.velX <= 0) {
-            this.scale = -1;
+          if(this.scale>0) this.scale *= -1;
+
             this.imgPosY = 155;
             if(entityManager.updateDuckPose()){
                 if(this.imgPosX === 80 || this.imgPosX === 210 || this.imgPosX === 335) {
@@ -233,13 +238,14 @@ Duck.prototype.update = function (du) {
 };
 
 Duck.prototype.getRadius = function () {
-    return 10;
+    return 12*Math.abs(this.scale);
 };
 
 Duck.prototype.produceSplatter = function () {
-    for(var i = 0; i < 40; i++) {
+    for(var i = 0; i < 20; i++) {
+      g_ctx.save();
       g_ctx.fillStyle = "#FF0000";
-      util.fillCircle(g_ctx, this.cx+util.randRange(-20, 20), this.cy+util.randRange(-20, 20), util.randRange(0, 3));
+      util.fillCircle(g_ctx, this.cx+util.randRange(-15, 15)*Math.abs(this.scale), this.cy+util.randRange(-15, 15)*Math.abs(this.scale), util.randRange(0, 4)*Math.abs(this.scale));
       g_ctx.restore();
     }
 };
@@ -278,4 +284,5 @@ Duck.prototype.render = function (ctx) {
     this.sprite.drawWrappedCentredAt(
         ctx, this.cx, this.cy, this.rotation, this.imgPosX, this.imgPosY, this.imgWidth, this.imgHeight, this.imgDestWidth, this.imgDestHeight
     );
+    var origScale = this.sprite.scale;
 };

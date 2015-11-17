@@ -80,7 +80,7 @@ Entity.prototype.isItAHit = function () {
 };
 
 Entity.prototype.outOfBondsLittleDuckie = function () {
-    var margin=10;
-    if(-margin>this.cx || this.cx>g_canvas.width+margin) this.kill();
-    if(-margin>this.cy || this.cy>g_canvas.height+margin) this.kill();
+    var marginForKillingLittleDuckies=10;
+    if(-marginForKillingLittleDuckies>this.cx || this.cx>g_canvas.width+marginForKillingLittleDuckies) this.kill();
+    if(-marginForKillingLittleDuckies>this.cy || this.cy>g_canvas.height+marginForKillingLittleDuckies) this.kill();
 };

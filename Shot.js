@@ -59,8 +59,14 @@ Shot.prototype.update = function (du) {
     this.ammo = this.ammo-1;
     if (this.isItAHit()) {
       var TheDieingDuck = this.isItAHit();
+      if(TheDieingDuck.DuckType == "red"){
+        TheDieingDuck.takeBulletHit();
+        g_Score +=2;
+      }
+      else{
       TheDieingDuck.takeBulletHit();
       g_Score++;
+      }
   	}
 
     this.ShotsFired.play();
