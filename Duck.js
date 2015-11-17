@@ -30,12 +30,15 @@ function Duck(descr) {
 
     this.flightUpCounter = util.randRange(30, 50);
 
-    this.imgPosX = 0;
-    this.imgPosY = 190;
+    this.isDead = false;
+    //this.imgPosX = 0;
+    //this.imgPosY = 190;
     this.imgWidth = 40;
     this.imgHeight = 35;
     this.imgDestWidth = this.imgWidth;
     this.imgDestHeight = this.imgHeight;
+
+    this.deathAnimationCounter = 7;
     
     this.randomiseColor();
 /*
@@ -61,12 +64,15 @@ Duck.prototype.randomiseColor = function () {
     switch(oneTwoOrThree) {
       case 1:
         this.imgPosX = 0;
+        this.colorXVal = 0;
         break;
       case 2:
         this.imgPosX = 130;
+        this.colorXVal = 130;
         break;
       case 3:
         this.imgPosX = 255;
+        this.colorXVal = 255; 
         break;
     }
     
@@ -129,60 +135,52 @@ Duck.prototype.update = function (du) {
 
     this.cx += this.velX * du;
     this.cy += this.velY * du;
-    if(Math.abs(this.velX) > Math.abs(this.velY)){
-      if(this.velX > 0) {
-        this.scale = 1;
-        this.imgPosY = 120;
-        if(entityManager.updateDuckPose()){
-          if(this.imgPosX === 80 || this.imgPosX === 210 || this.imgPosX === 335) {
-            this.imgPosX -= 80;
-          }
-          else {
-            this.imgPosX += 40;
-          }
-        }
+    if(this.isDead) {
+      if(this.deathAnimationCounter === 7) {
+        this.produceSplatter();
       }
-      if(this.velX <= 0) {
-          this.scale = -1;
+      if(this.deathAnimationCounter > 0) {
+        this.velX = -1;
+        this.velY = -1;
+        this.imgPosY = 230;
+        this.deathAnimationCounter--;
+        this.imgPosX = this.colorXVal;
+      }
+      else if(this.deathAnimationCounter <= 0){
+        this.velY += 0.1;
+        this.imgPosX = this.colorXVal + 40;
+      }
+    }
+    else{
+      if(Math.abs(this.velX) > Math.abs(this.velY)){
+        if(this.velX > 0) {
+          this.scale = 1;
           this.imgPosY = 120;
           if(entityManager.updateDuckPose()){
-              if(this.imgPosX === 80 || this.imgPosX === 210 || this.imgPosX === 335) {
-                  this.imgPosX -= 80;
-              }
-              else {
-                  this.imgPosX += 40;
-              }
-          }
-      }
-    }
-    else if(this.velX === 0){
-        this.scale = 1;
-        this.imgPosY = 190;
-        if(entityManager.updateDuckPose()){
             if(this.imgPosX === 80 || this.imgPosX === 210 || this.imgPosX === 335) {
-                this.imgPosX -= 80;
+              this.imgPosX -= 80;
             }
             else {
-                this.imgPosX += 40;
+              this.imgPosX += 40;
+            }
+          }
+        }
+        if(this.velX <= 0) {
+            this.scale = -1;
+            this.imgPosY = 120;
+            if(entityManager.updateDuckPose()){
+                if(this.imgPosX === 80 || this.imgPosX === 210 || this.imgPosX === 335) {
+                    this.imgPosX -= 80;
+                }
+                else {
+                    this.imgPosX += 40;
+                }
             }
         }
-    }
-    else if(Math.abs(this.velX) <= Math.abs(this.velY)){
-      if(this.velX > 0) {
-        this.scale = 1;
-        this.imgPosY = 155;
-        if(entityManager.updateDuckPose()){
-          if(this.imgPosX === 80 || this.imgPosX === 210 || this.imgPosX === 335) {
-            this.imgPosX -= 80;
-          }
-          else {
-            this.imgPosX += 40;
-          }
-        }
       }
-      if(this.velX <= 0) {
-          this.scale = -1;
-          this.imgPosY = 155;
+      else if(this.velX === 0){
+          this.scale = 1;
+          this.imgPosY = 190;
           if(entityManager.updateDuckPose()){
               if(this.imgPosX === 80 || this.imgPosX === 210 || this.imgPosX === 335) {
                   this.imgPosX -= 80;
@@ -192,8 +190,33 @@ Duck.prototype.update = function (du) {
               }
           }
       }
-    }
-  
+      else if(Math.abs(this.velX) <= Math.abs(this.velY)){
+        if(this.velX > 0) {
+          this.scale = 1;
+          this.imgPosY = 155;
+          if(entityManager.updateDuckPose()){
+            if(this.imgPosX === 80 || this.imgPosX === 210 || this.imgPosX === 335) {
+              this.imgPosX -= 80;
+            }
+            else {
+              this.imgPosX += 40;
+            }
+          }
+        }
+        if(this.velX <= 0) {
+            this.scale = -1;
+            this.imgPosY = 155;
+            if(entityManager.updateDuckPose()){
+                if(this.imgPosX === 80 || this.imgPosX === 210 || this.imgPosX === 335) {
+                    this.imgPosX -= 80;
+                }
+                else {
+                    this.imgPosX += 40;
+                }
+            }
+        }
+      }
+  }
 
   if(this.flightUpCounter < 0) {
     this.randomiseVelocity();
@@ -212,6 +235,14 @@ Duck.prototype.update = function (du) {
 Duck.prototype.getRadius = function () {
     return 10;
 };
+
+Duck.prototype.produceSplatter = function () {
+    for(var i = 0; i < 40; i++) {
+      g_ctx.fillStyle = "#FF0000";
+      util.fillCircle(g_ctx, this.cx+util.randRange(-20, 20), this.cy+util.randRange(-20, 20), util.randRange(0, 3));
+      g_ctx.restore();
+    }
+};
 /*
 // HACKED-IN AUDIO (no preloading)
 Will use this later on
@@ -221,23 +252,22 @@ Duck.prototype.evaporateSound = new Audio(
   "sounds/rockEvaporate.ogg");
 */
 Duck.prototype.takeBulletHit = function () {
-    this.kill();
-//Use this later on
-  /*  if (this.scale > 0.25) {
-        this._spawnFragment();
-        this._spawnFragment();
-
-        this.splitSound.play();
-    } else {
-        this.evaporateSound.play();
-    }*/
+  this.velY = 3;
+  this.velX = 0;
+  this.flightUpCounter = 1000000000;
+  this.isDead = true;
 };
 
 Duck.prototype._spawnFragment = function () {
     entityManager.generateDuck({
         cx : this.cx,
         cy : this.cy,
-        //scale : this.scale /2
+        imgPosY : this.imgPosY,
+        imgPosX : this.imgPosX,
+        imgWidth : 10,
+        imgHeight : 10,
+        velY : 2,
+        velX : 0
     });
 };
 
