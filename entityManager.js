@@ -29,6 +29,7 @@ var entityManager = {
 
 _Ducks   : [],
 _Shots   : [],
+_Guns    : [],
 
 _bShowDucks : true,
 
@@ -46,33 +47,6 @@ _generateDucks : function() {
         this.generateDuck();
     }
 },
-/*
-_findNearestDuck : function(posX, posY) {
-    var closestDuck = null,
-        closestIndex = -1,
-        closestSq = 1000 * 1000;
-
-    for (var i = 0; i < this._Ducks.length; ++i) {
-
-        var thisDucks = this._Ducks[i];
-        var DuckPos = thisDucks.getPos();
-        var distSq = util.wrappedDistSq(
-            DuckPos.posX, DuckPos.posY,
-            posX, posY,
-            g_canvas.width, g_canvas.height);
-
-        if (distSq < closestSq) {
-            closestDuck = thisDucks;
-            closestIndex = i;
-            closestSq = distSq;
-        }
-    }
-    return {
-        theDuck : closestDuck,
-        theIndex: closestIndex
-    };
-},
-*/
 
 _forEachOf: function(aCategory, fn) {
     for (var i = 0; i < aCategory.length; ++i) {
@@ -95,7 +69,7 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._Ducks, this._Shots];
+    this._categories = [this._Ducks, this._Shots, this._Guns];
 },
 
 init: function() {
@@ -109,6 +83,11 @@ generateDuck : function(descr) {
 
 generateShot : function(descr) {
     this._Shots.push(new Shot(descr));
+},
+
+generateGun : function(descr) {
+    this._Guns.push(new Gun(descr));
+    console.log(this._Guns)
 },
 
 toggleDucks: function() {
@@ -130,8 +109,8 @@ updateDuckPose: function() {
 
 update: function(du) {
 
-    console.log(this.poseSpeed);
-    console.log(this.counterPose);
+    //console.log(this.poseSpeed);
+    //console.log(this.counterPose);
     for (var c = 0; c < this._categories.length; ++c) {
 
         var aCategory = this._categories[c];
@@ -140,14 +119,14 @@ update: function(du) {
         while (i < aCategory.length) {
 
             var status = aCategory[i].update(du);
-            console.log(aCategory[i]);
+          //console.log(aCategory[i]);
 
             if (status === this.KILL_ME_NOW) {
                 // remove the dead guy, and shuffle the others down to
                 // prevent a confusing gap from appearing in the array
-                
+
                 aCategory.splice(i,1);
-             
+
             }
             else {
                 ++i;

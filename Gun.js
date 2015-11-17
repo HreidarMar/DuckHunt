@@ -19,29 +19,24 @@ function Gun(descr) {
     this.setup(descr);
 
     // Default sprite, if not otherwise specified
-    this.sprite = this.sprite || g_sprites.Gun;
+    this.sprite = g_sprites.Gun;
 
     // Set normal drawing scale, and warp state off
-    this._scale = 1;
+    this._scale = 0.3;
     this.imgPosX = 0;
     this.imgPosY = 0;
-    this.imgWidth = 400;
-    this.imgHeight = 400;
-    this.imgDestWidth = 60;
-    this.imgDestHeight = 60;
-
+    this.imgWidth = 648;
+    this.imgHeight = 480;
+    this.imgDestWidth = 648;
+    this.imgDestHeight = 480;
 };
 
 Gun.prototype = new Entity();
 
 
 Gun.prototype.update = function (du) {
-
-    this.cx = g_mouseX;
-    this.cy = g_mouseY;
-
-
-
+    this.cx = 500;
+    this.cy = 550;
 };
 
 Gun.prototype.render = function (ctx) {
@@ -51,5 +46,6 @@ Gun.prototype.render = function (ctx) {
     this.sprite.drawWrappedCentredAt(
         ctx, this.cx, this.cy, 0, this.imgPosX, this.imgPosY, this.imgWidth, this.imgHeight, this.imgDestWidth, this.imgDestHeight
     );
+    //this.sprite.drawAt(ctx,x,y);
     this.sprite.scale = origScale;
 };

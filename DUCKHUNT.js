@@ -24,6 +24,11 @@ var g_ctx = g_canvas.getContext("2d");
 
 function createInitialTarget() {
 
+  entityManager.generateGun({
+      cx : 100,
+      cy : 100
+  });
+
     entityManager.generateShot({
         cx : 0,
         cy : 0
@@ -131,7 +136,7 @@ function requestPreloads() {
 
     var requiredImages = {
         Shot   : "crosshairs.png",
-        //Shot2  :
+        Gun  :  "Doublebarrel.png",
         Duck   : "duckhunt_various_sheet.png"
     };
 
@@ -143,7 +148,7 @@ var g_sprites = {};
 function preloadDone() {
 
     g_sprites.Shot  = new Sprite(g_images.Shot);
-    //g_sprites.Shot2 = new Sprite(g_images.Shot2);
+    g_sprites.Gun = new Sprite(g_images.Gun);
     g_sprites.Duck  = new Sprite(g_images.Duck);
 
 
