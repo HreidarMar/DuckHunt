@@ -63,7 +63,8 @@ main._iterCore = function (dt) {
     if (requestedQuit()) {
         this.gameOver();
         return;
-    }
+      }
+
     if (gameIsOver()) {
         this.gameOver();
         return;
@@ -93,22 +94,12 @@ main.gameOver = function () {
 
   ctx.fillText("Your score is "+ g_Score,500,290);
 
-
 //localStorage.removeItem("DuckHunt_highscore");
-
-
-
-if (g_Score > g_HighScore) {
-  localStorage.setItem("DuckHunt_highscore", g_Score );
-}
-g_HighScore = localStorage.getItem("DuckHunt_highscore");
-ctx.fillText("The highscore is: " + g_HighScore,500,320);
-
-
-
-
-
-
+  if (g_Score > g_HighScore) {
+    localStorage.setItem("DuckHunt_highscore", g_Score );
+  }
+  g_HighScore = localStorage.getItem("DuckHunt_highscore");
+  ctx.fillText("The highscore is: " + g_HighScore,500,320);
 
   ctx.fillText("REFRESH PAGE FOR A NEW GAME",500,500);
   this._isGameOver = true;
@@ -117,9 +108,10 @@ ctx.fillText("The highscore is: " + g_HighScore,500,320);
 
 // Simple voluntary quit mechanism
 //
-var KEY_QUIT = 'Q'.charCodeAt(0);
+//var KEY_QUIT = 'Q'.charCodeAt(0);
+
 function requestedQuit() {
-    return keys[KEY_QUIT];
+    return keys[KEY_YES];
 }
 
 function gameIsOver() {
