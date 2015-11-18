@@ -22,7 +22,7 @@ function Gun(descr) {
     this.sprite = g_sprites.Gun;
 
     // Set normal drawing scale, and warp state off
-    this._scale = 0.3;
+    this._scale = 0.5;
     this.imgPosX = 0;
     this.imgPosY = 0;
     this.imgWidth = 648;
@@ -35,34 +35,34 @@ Gun.prototype = new Entity();
 
 
 Gun.prototype.update = function (du) {
-    this.cx = 500;
-    this.cy = 550;
-    if(g_mouseY < g_canvas.height/2) {
+    this.cx = g_mouseX+85;
+    this.cy = 600;
+  /*  if(g_mouseY < g_canvas.height/2) {
         if(g_mouseX < g_canvas.width/3) {
             this.rotation = 6.3;
-            this._scale = 0.3;
+            this._scale = 0.8;
         }
         else if(g_mouseX >= g_canvas.width/3 && g_mouseX < 2*g_canvas.width/3) {
             this.rotation = 6.6;
-            this._scale = 0.3;
+            this._scale = 0.8;
         }
         else {
-            this._scale = -0.3;
+            this._scale = -0.8;
         }
     }
     else {
         if(g_mouseX < g_canvas.width/3) {
             this.rotation = 6.3;
-            this._scale = 0.3;
+            this._scale = 0.8;
         }
         else if(g_mouseX >= g_canvas.width/3 && g_mouseX < 2*g_canvas.width/3) {
             this.rotation = 6.6;
-            this._scale = 0.3;
+            this._scale = 0.8;
         }
         else {
-            this._scale = -0.3;
+            this._scale = -0.8;
         }
-    }
+    }*/
 };
 
 Gun.prototype.render = function (ctx) {

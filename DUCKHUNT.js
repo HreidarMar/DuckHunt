@@ -136,7 +136,7 @@ function requestPreloads() {
 
     var requiredImages = {
         Shot   : "crosshairs.png",
-        Gun  :  "Doublebarrel.png",
+        Gun  :  "pistol.png",
         Duck   : "duckhunt_various_sheet.png"
     };
 

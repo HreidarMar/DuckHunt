@@ -101,12 +101,12 @@ Duck.prototype.randomiseUpFlight = function () {
 Duck.prototype.randomiseVelocity = function () {
 
     if(this.negOrPosVelX) {
-      this.velX = util.randRange(1,4)*Math.abs(this.scale);
-      this.velY = -util.randRange(1,4)*Math.abs(this.scale);
+      this.velX = util.randRange(1,3.5)*Math.abs(this.scale);
+      this.velY = -util.randRange(1,3.5)*Math.abs(this.scale);
     }
     else {
-      this.velX = -util.randRange(1,4)*Math.abs(this.scale);
-      this.velY = -util.randRange(1,4)*Math.abs(this.scale);
+      this.velX = -util.randRange(1,3.5)*Math.abs(this.scale);
+      this.velY = -util.randRange(1,3.5)*Math.abs(this.scale);
     }
     entityManager.setPoseSpeed(Math.abs(Math.floor(20/(Math.abs(this.velX)+Math.abs(this.velY)))));
     /*var MIN_SPEED = 150
