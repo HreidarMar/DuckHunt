@@ -37,6 +37,32 @@ Gun.prototype = new Entity();
 Gun.prototype.update = function (du) {
     this.cx = 500;
     this.cy = 550;
+    if(g_mouseY < g_canvas.height/2) {
+        if(g_mouseX < g_canvas.width/3) {
+            this.rotation = 6.3;
+            this._scale = 0.3;
+        }
+        else if(g_mouseX >= g_canvas.width/3 && g_mouseX < 2*g_canvas.width/3) {
+            this.rotation = 6.6;
+            this._scale = 0.3;
+        }
+        else {
+            this._scale = -0.3;
+        }
+    }
+    else {
+        if(g_mouseX < g_canvas.width/3) {
+            this.rotation = 6.3;
+            this._scale = 0.3;
+        }
+        else if(g_mouseX >= g_canvas.width/3 && g_mouseX < 2*g_canvas.width/3) {
+            this.rotation = 6.6;
+            this._scale = 0.3;
+        }
+        else {
+            this._scale = -0.3;
+        }
+    }
 };
 
 Gun.prototype.render = function (ctx) {
@@ -44,7 +70,7 @@ Gun.prototype.render = function (ctx) {
     // pass my scale into the sprite, for drawing
     this.sprite.scale = this._scale;
     this.sprite.drawWrappedCentredAt(
-        ctx, this.cx, this.cy, 0, this.imgPosX, this.imgPosY, this.imgWidth, this.imgHeight, this.imgDestWidth, this.imgDestHeight
+        ctx, this.cx, this.cy, this.rotation, this.imgPosX, this.imgPosY, this.imgWidth, this.imgHeight, this.imgDestWidth, this.imgDestHeight
     );
     //this.sprite.drawAt(ctx,x,y);
     this.sprite.scale = origScale;
