@@ -34,19 +34,9 @@ function Gun(descr) {
 Gun.prototype = new Entity();
 
 
-
-
-
-
-
 Gun.prototype.update = function (du) {
-
-  if(g_PISTOL) this.sprite = g_sprites.Gun;
-  else this.sprite = g_sprites.Gun2;
-
-  if(g_PISTOL) this.cx = g_mouseX+90;
-  else this.cx = g_mouseX+100;
-  this.cy = 600;
+    this.cx = g_mouseX+85;
+    this.cy = 600;
   /*  if(g_mouseY < g_canvas.height/2) {
         if(g_mouseX < g_canvas.width/3) {
             this.rotation = 6.3;
