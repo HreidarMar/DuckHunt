@@ -5,14 +5,21 @@ var g_doBox = false;
 var g_undoBox = false;
 var g_doFlipFlop = false;
 var g_doRender = true;
+var g_winterMode = false;
 
 var g_frameCounter = 1;
 
+var TOGGLE_WINTER = 'W'.charCodeAt(0);
 var TOGGLE_CLEAR = 'C'.charCodeAt(0);
 var TOGGLE_BOX = 'B'.charCodeAt(0);
 var TOGGLE_UNDO_BOX = 'U'.charCodeAt(0);
 var TOGGLE_FLIPFLOP = 'F'.charCodeAt(0);
 var TOGGLE_RENDER = 'R'.charCodeAt(0);
+
+var snowFlakes = [];
+for(var i = 0; i<200; i++){
+    snowFlakes[i] = [util.randRange(0, 1000), util.randRange(0, 600), util.randRange(2, 4)];
+}
 
 function render(ctx) {
 
@@ -23,6 +30,7 @@ function render(ctx) {
     if (eatKey(TOGGLE_UNDO_BOX)) g_undoBox = !g_undoBox;
     if (eatKey(TOGGLE_FLIPFLOP)) g_doFlipFlop = !g_doFlipFlop;
     if (eatKey(TOGGLE_RENDER)) g_doRender = !g_doRender;
+    if (eatKey(TOGGLE_WINTER)) g_winterMode = !g_winterMode;
 
     // I've pulled the clear out of `renderSimulation()` and into
     // here, so that it becomes part of our "diagnostic" wrappers
@@ -36,7 +44,19 @@ function render(ctx) {
     // i.e. double-buffering prevents flicker!
     //
     if (g_doBox) util.fillBox(ctx, 200, 200, 50, 50, "red");
-
+    if(g_winterMode) {
+        for(var i = 0; i<snowFlakes.length;i++){
+            snowFlakes[i][0] += util.randRange(-0.6, 0.6);
+            snowFlakes[i][1] += util.randRange(0.3, 1);
+            util.fillCircle(ctx, snowFlakes[i][0], snowFlakes[i][1], snowFlakes[i][2]);
+            if(snowFlakes[i][0] > g_canvas.width) {
+                snowFlakes[i][0] = snowFlakes[i][0] - g_canvas.width;
+            }
+            if(snowFlakes[i][1] > g_canvas.height) {
+                snowFlakes[i][1] = snowFlakes[i][1] - g_canvas.height;
+            }
+        }
+    }
     if(g_isUpdatePaused) {
     ctx.save()
     ctx.textAlign="center";

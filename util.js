@@ -83,9 +83,14 @@ clearCanvas: function (ctx) {
     // coords accordingly, to draw our sprite centred at the origin
     var img = new Image;
     img.onload = function(){
-        ctx.drawImage(img,0,0); // Or at whatever offset you like
+        ctx.drawImage(img,0,0, 1280, 700, 0, 0, 1000, 600); // Or at whatever offset you like
     };
-    img.src = 'background.png';
+    if(g_winterMode){
+        img.src = 'backgroundwinter.png';
+    }
+    else {
+        img.src = 'background.png';
+    }
 },
 
 strokeCircle: function (ctx, x, y, r) {
