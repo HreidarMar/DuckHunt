@@ -111,7 +111,7 @@ main.gameOver = function () {
 //var KEY_QUIT = 'Q'.charCodeAt(0);
 
 function requestedQuit() {
-    return keys[KEY_YES];
+    return g_GAMEOVER;
 }
 
 function gameIsOver() {
