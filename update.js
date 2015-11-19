@@ -24,6 +24,13 @@ function update(dt) {
     //
     if (shouldSkipUpdate()) return;
     ChangeGun();
+    if(g_winterModeMusic && g_winterMode) {
+        document.getElementById('Xmas').play();
+        g_winterModeMusic=false;
+      }
+    if(!g_winterMode){
+      document.getElementById('Xmas').pause();
+    }
 
     // Remember this for later
     //

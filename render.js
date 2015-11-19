@@ -6,6 +6,7 @@ var g_undoBox = false;
 var g_doFlipFlop = false;
 var g_doRender = true;
 var g_winterMode = false;
+var g_winterModeMusic = false;
 
 var g_frameCounter = 1;
 
@@ -30,7 +31,10 @@ function render(ctx) {
     if (eatKey(TOGGLE_UNDO_BOX)) g_undoBox = !g_undoBox;
     if (eatKey(TOGGLE_FLIPFLOP)) g_doFlipFlop = !g_doFlipFlop;
     if (eatKey(TOGGLE_RENDER)) g_doRender = !g_doRender;
-    if (eatKey(TOGGLE_WINTER)) g_winterMode = !g_winterMode;
+    if (eatKey(TOGGLE_WINTER)){
+      g_winterMode = !g_winterMode;
+      g_winterModeMusic = true;
+    }
 
     // I've pulled the clear out of `renderSimulation()` and into
     // here, so that it becomes part of our "diagnostic" wrappers
