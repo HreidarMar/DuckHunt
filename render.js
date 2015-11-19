@@ -42,9 +42,9 @@ function render(ctx) {
     ctx.textAlign="center";
     ctx.font = "50px Arial";
     ctx.fillStyle = 'red';
-    ctx.fillText("Do you really want to quit?",500,220);
+    ctx.fillText("Do you really want to quit?",500,190);
     ctx.font = "25px Arial";
-    ctx.fillText("Yes(Y) No(N)",500,280);
+    ctx.fillText("Yes(Press Y and P) No(Press N)",500,230);
     ctx.restore();
 
     }

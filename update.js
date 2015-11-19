@@ -61,7 +61,7 @@ function shouldSkipUpdate() {
     if (eatKey(KEY_PAUSE)) {
         g_isUpdatePaused = !g_isUpdatePaused;
         if(keys[KEY_YES]) {
-          main.requestedQuit();
+          g_GAMEOVER=true;
         }
     }
     if(eatKey(KEY_NO)) {
