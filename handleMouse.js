@@ -13,7 +13,8 @@
 
 var g_mouseX = 0,
     g_mouseY = 0,
-    g_Shoot = false;
+    g_Shoot = false,
+    g_isShooting = false;
 
 function handleMouse(evt) {
 

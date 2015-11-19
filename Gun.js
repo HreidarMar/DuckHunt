@@ -20,6 +20,8 @@ function Gun(descr) {
 
     // Default sprite, if not otherwise specified
     this.sprite = g_sprites.Gun;
+    this.spriteFlash = g_sprites.Gunflash;
+    this.animateShot = false;
 
     // Set normal drawing scale, and warp state off
     this._scale = 0.5;
@@ -29,6 +31,7 @@ function Gun(descr) {
     this.imgHeight = 480;
     this.imgDestWidth = 648;
     this.imgDestHeight = 480;
+    this.shotCounter = 5;
 };
 
 Gun.prototype = new Entity();
@@ -37,6 +40,15 @@ Gun.prototype = new Entity();
 Gun.prototype.update = function (du) {
     this.cx = g_mouseX+85;
     this.cy = 600;
+    if(g_isShooting) {
+        this.cy += 20;
+        if(this.shotCounter < 0) {
+            g_isShooting = false;
+            this.shotCounter = 5;
+        }
+        this.animateShot = true;
+        this.shotCounter--;
+    }
   /*  if(g_mouseY < g_canvas.height/2) {
         if(g_mouseX < g_canvas.width/3) {
             this.rotation = 6.3;
@@ -65,6 +77,7 @@ Gun.prototype.update = function (du) {
     }*/
 };
 
+
 Gun.prototype.render = function (ctx) {
     var origScale = this.sprite.scale;
     // pass my scale into the sprite, for drawing
@@ -72,6 +85,15 @@ Gun.prototype.render = function (ctx) {
     this.sprite.drawWrappedCentredAt(
         ctx, this.cx, this.cy, this.rotation, this.imgPosX, this.imgPosY, this.imgWidth, this.imgHeight, this.imgDestWidth, this.imgDestHeight
     );
-    //this.sprite.drawAt(ctx,x,y);
     this.sprite.scale = origScale;
+    if(this.animateShot){
+        
+        this.sprite.scale = 0.1;    
+        this.spriteFlash.drawWrappedCentredAt(
+        ctx, this.cx-80, this.cy-110, this.rotation, this.imgPosX, this.imgPosY, this.imgWidth, this.imgHeight, 60, 60
+        );
+        this.animateShot = false;
+        this.sprite.scale = origScale;
+    }
+    //this.sprite.drawAt(ctx,x,y);
 };
