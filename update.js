@@ -23,6 +23,7 @@ function update(dt) {
     // Get out if skipping (e.g. due to pause-mode)
     //
     if (shouldSkipUpdate()) return;
+    ChangeGun();
 
     // Remember this for later
     //
@@ -55,9 +56,11 @@ var KEY_STEP  = 'O'.charCodeAt(0);
 var KEY_YES = 'Y'.charCodeAt(0);
 var KEY_NO = 'N'.charCodeAt(0);
 
+
 var g_isUpdatePaused = false;
 
 function shouldSkipUpdate() {
+
     if (eatKey(KEY_PAUSE)) {
         g_isUpdatePaused = !g_isUpdatePaused;
         if(keys[KEY_YES]) {
@@ -68,4 +71,12 @@ function shouldSkipUpdate() {
       g_isUpdatePaused = false;
     }
     return g_isUpdatePaused && !eatKey(KEY_STEP);
+}
+
+var KEY_GUNSWAP = 'G'.charCodeAt(0);
+
+function ChangeGun() {
+     if(eatKey(KEY_GUNSWAP)) {
+          g_PISTOL = !g_PISTOL;
+        }
 }
