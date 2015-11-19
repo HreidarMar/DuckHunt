@@ -137,7 +137,7 @@ Duck.prototype.update = function (du) {
 
     this.cx += this.velX * du;
     this.cy += this.velY * du;
-    /*if(this.isDead) {
+    if(this.isDead) {
       if(this.deathAnimationCounter > 10) {
         this.produceSplatter();
       }
@@ -221,7 +221,7 @@ Duck.prototype.update = function (du) {
             }
         }
       }
-  } */
+  }
 
   if(this.flightUpCounter < 0) {
     this.randomiseVelocity();
