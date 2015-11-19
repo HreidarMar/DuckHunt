@@ -21,6 +21,7 @@ if(g_HighScore === null){
     }
 var g_GAMEOVER = false;
 var g_PISTOL=true;
+var g_redCounter = 300;
 
 // The "nominal interval" is the one that all of our time-based units are
 // calibrated to e.g. a velocity unit is "pixels per nominal interval"

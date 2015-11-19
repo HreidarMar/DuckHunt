@@ -67,7 +67,7 @@ Shot.prototype.update = function (du) {
             TheDieingDuck = this.isItAHit();
             if(TheDieingDuck.DuckType == "red"){
               TheDieingDuck.takeBulletHit();
-              g_Score +=2;
+              g_Score +=5;
             }
             else {
             TheDieingDuck.takeBulletHit();
@@ -92,7 +92,7 @@ Shot.prototype.update = function (du) {
             TheDieingDuck = this.isItAHit();
             if(TheDieingDuck.DuckType == "red"){
               TheDieingDuck.takeBulletHit();
-              g_Score +=2;
+              g_Score +=5;
             }
             else {
             TheDieingDuck.takeBulletHit();

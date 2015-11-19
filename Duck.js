@@ -21,13 +21,19 @@ function Duck(descr) {
     this.negOrPosVelX = Math.floor(util.randRange(0, 2));
 
     this.randomisePosition();
-    this.randomiseUpFlight();
+    if(g_redCounter<0) {
+      this.randomiseUpFlightOfARedDuckie();
+      g_redCounter = 100000;
+    }
+    else {
+      this.randomiseUpFlight();
+      this.randomiseColor();
+      this.scale  = util.randRange(0.5,2);
+    }
     // Default sprite and scale, if not otherwise specified
     this.sprite = this.sprite || g_sprites.Duck;
-    this.scale  = util.randRange(0.5,2.5);
 
-    this.cy = g_canvas.height - 30;
-
+    this.cy = g_canvas.height - 130;
     this.flightUpCounter = util.randRange(30, 50);
 
     this.isDead = false;
@@ -40,7 +46,6 @@ function Duck(descr) {
 
     this.deathAnimationCounter = 15;
 
-    this.randomiseColor();
     this.DuckType;
 /*
     // Diagnostics to check inheritance stuff
@@ -60,7 +65,7 @@ Duck.prototype.randomisePosition = function () {
 
 Duck.prototype.randomiseColor = function () {
     // Duck randomisation defaults (if nothing otherwise specified)
-    var oneTwoOrThree = Math.floor(util.randRange(1, 4));
+    var oneTwoOrThree = Math.floor(util.randRange(1, 3));
     switch(oneTwoOrThree) {
       case 1:
         this.imgPosX = 0;
@@ -72,13 +77,20 @@ Duck.prototype.randomiseColor = function () {
         this.colorXVal = 130;
         this.DuckType = "black";
         break;
-      case 3:
-        this.imgPosX = 255;
-        this.colorXVal = 255;
-        this.DuckType = "red";
-        break;
     }
 
+};
+
+Duck.prototype.randomiseUpFlightOfARedDuckie = function () {
+    var marginForStartPosition = 100;
+    this.cx = this.cx || util.randRange(0 + marginForStartPosition,g_canvas.width - marginForStartPosition);
+    this.imgPosX = 255;
+    this.colorXVal = 255;
+    this.DuckType = "red";
+    this.velY = -util.randRange(1,5);
+    this.velX = 0;
+    this.scale = 0.5;
+    entityManager.setPoseSpeed(Math.abs(Math.floor(10/this.velY)));
 };
 
 
@@ -127,13 +139,14 @@ Duck.prototype.halt = function () {
 
 Duck.prototype.update = function (du) {
 
+    
     spatialManager.unregister(this);
 
-  	if (this._isDeadNow) {
+    if (this._isDeadNow) {
 
       this.takeBulletHit;
       return entityManager.KILL_ME_NOW;
-  	}
+    }
 
     this.cx += this.velX * du;
     this.cy += this.velY * du;
@@ -222,12 +235,13 @@ Duck.prototype.update = function (du) {
         }
       }
   }
-
+  
   if(this.flightUpCounter < 0) {
     this.randomiseVelocity();
     this.flightUpCounter = util.randRange(10, 30);
   }
 
+  g_redCounter--;
   this.flightUpCounter--;
 
   this.outOfBondsLittleDuckie();
