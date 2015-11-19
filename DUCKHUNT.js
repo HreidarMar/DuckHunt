@@ -137,7 +137,8 @@ function requestPreloads() {
     var requiredImages = {
         Shot   : "crosshairs.png",
         Gun  :  "pistol.png",
-        Duck   : "duckhunt_various_sheet.png"
+        Duck   : "duckhunt_various_sheet.png",
+        Gunflash : "flash.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -150,6 +151,7 @@ function preloadDone() {
     g_sprites.Shot  = new Sprite(g_images.Shot);
     g_sprites.Gun = new Sprite(g_images.Gun);
     g_sprites.Duck  = new Sprite(g_images.Duck);
+    g_sprites.Gunflash  = new Sprite(g_images.Gunflash);
 
 
 

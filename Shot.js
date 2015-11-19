@@ -68,11 +68,13 @@ Shot.prototype.update = function (du) {
       g_Score++;
       }
   	}
-
+    g_isShooting = true;
     this.ShotsFired.play();
     //this.Reload.play();
 
+
   }
+  
 }
 
 
