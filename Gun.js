@@ -38,10 +38,32 @@ Gun.prototype = new Entity();
 
 
 Gun.prototype.update = function (du) {
-    this.cx = g_mouseX+85;
+    if(g_PISTOL) {
+      this.sprite = g_sprites.Gun;
+      this.scale=0.5;
+    }
+    else {
+      this.sprite = g_sprites.Gun2;
+      this.scale=0.4;
+    }
+
+    if(g_PISTOL) this.cx = g_mouseX+90;
+    else this.cx = g_mouseX+100;
     this.cy = 600;
-    if(g_isShooting) {
+
+    this.cy = 600;
+    if(g_isShooting && g_PISTOL) {
         this.cy += 20;
+        if(this.shotCounter < 0) {
+            g_isShooting = false;
+            this.shotCounter = 5;
+        }
+        this.animateShot = true;
+        this.shotCounter--;
+    }
+    if(g_isShooting && !g_PISTOL) {
+        this.cy += 35;
+        this.cx += 35;
         if(this.shotCounter < 0) {
             g_isShooting = false;
             this.shotCounter = 5;
@@ -87,8 +109,8 @@ Gun.prototype.render = function (ctx) {
     );
     this.sprite.scale = origScale;
     if(this.animateShot){
-        
-        this.sprite.scale = 0.1;    
+
+        this.sprite.scale = 0.1;
         this.spriteFlash.drawWrappedCentredAt(
         ctx, this.cx-80, this.cy-110, this.rotation, this.imgPosX, this.imgPosY, this.imgWidth, this.imgHeight, 60, 60
         );

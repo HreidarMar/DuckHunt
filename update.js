@@ -23,6 +23,7 @@ function update(dt) {
     // Get out if skipping (e.g. due to pause-mode)
     //
     if (shouldSkipUpdate()) return;
+    ChangeGun();
 
     // Remember this for later
     //
@@ -68,4 +69,12 @@ function shouldSkipUpdate() {
       g_isUpdatePaused = false;
     }
     return g_isUpdatePaused && !eatKey(KEY_STEP);
+}
+
+var KEY_GUNSWAP = 'G'.charCodeAt(0);
+
+function ChangeGun() {
+     if(eatKey(KEY_GUNSWAP)) {
+          g_PISTOL = !g_PISTOL;
+        }
 }

@@ -30,59 +30,92 @@ function Shot(descr) {
     this.imgDestWidth = 60;
     this.imgDestHeight = 60;
 
-    this.ammo = 15;
-    this.buffer = 0;
+    this.PistolAmmo = 15;
+    this.ShotgunAmmo = 10;
+    this.PistolReload = 0;
+    this.ShotgunReload = 0;
 };
 
 Shot.prototype = new Entity();
 
 // Initial, inheritable, default values
-Shot.prototype.ShotsFired= new Audio(
+Shot.prototype.PistolFired= new Audio(
   "sounds/ShotsFired.mp3");
 
 Shot.prototype.Reload= new Audio(
     "sounds/ReloadMotherfucker.mp3");
 
+Shot.prototype.ShotgunFired= new Audio(
+    "sounds/shotgun2.mp3");
+
 
 Shot.prototype.update = function (du) {
 
-    this.buffer=this.buffer-du;
 
     this.cx = g_mouseX;
     this.cy = g_mouseY;
+    var TheDieingDuck;
 
-
-    if(g_Shoot && this.ammo>0){
-    g_Shoot=false;
-    if(this.buffer<0){
-    this.buffer=30*du;
-    this.ammo = this.ammo-1;
-    if (this.isItAHit()) {
-      var TheDieingDuck = this.isItAHit();
-      if(TheDieingDuck.DuckType == "red"){
-        TheDieingDuck.takeBulletHit();
-        g_Score +=2;
+    if(g_PISTOL){
+      this.PistolReload=this.PistolReload-du;
+      if(g_Shoot && this.PistolAmmo>0){
+        g_Shoot=false;
+        if(this.PistolReload<0){
+          this.PistolReload=30*du;
+          this.PistolAmmo = this.PistolAmmo-1;
+          if (this.isItAHit()) {
+            TheDieingDuck = this.isItAHit();
+            if(TheDieingDuck.DuckType == "red"){
+              TheDieingDuck.takeBulletHit();
+              g_Score +=2;
+            }
+            else {
+            TheDieingDuck.takeBulletHit();
+            g_Score++;
+            }
+      	  }
+        g_isShooting = true;
+        this.PistolFired.play();
+        spatialManager.register(this);
+        //this.Reload.play();
+        }
       }
-      else{
-      TheDieingDuck.takeBulletHit();
-      g_Score++;
+    }
+    else{
+      this.ShotgunReload=this.ShotgunReload-du;
+      if(g_Shoot && this.ShotgunAmmo>0){
+        g_Shoot=false;
+        if(this.ShotgunReload<0){
+          this.ShotgunReload=70*du;
+          this.ShotgunAmmo = this.ShotgunAmmo-1;
+          if (this.isItAHit()) {
+            TheDieingDuck = this.isItAHit();
+            if(TheDieingDuck.DuckType == "red"){
+              TheDieingDuck.takeBulletHit();
+              g_Score +=2;
+            }
+            else {
+            TheDieingDuck.takeBulletHit();
+            g_Score++;
+            }
+      	  }
+        g_isShooting = true;
+        this.ShotgunFired.play();
+        spatialManager.register(this);
+
+        //this.Reload.play();
+        }
       }
-  	}
-    g_isShooting = true;
-    this.ShotsFired.play();
-    //this.Reload.play();
-
-
-  }
-  
-}
+    }
 
 
 };
 
 
 Shot.prototype.getRadius = function () {
-    return 5;
+  if(g_PISTOL) return 5;
+  else return 15;
+
 };
 
 
@@ -96,20 +129,28 @@ Shot.prototype.render = function (ctx) {
     this.sprite.scale = origScale;
     ctx.font="20px Georgia";
     ctx.fillText("Your score is " +g_Score+ " and the time left is "+ Math.floor(g_gameTime),50,20);
-    ctx.fillText("You have " +this.ammo+ " shots left",50,50);
-    if(this.buffer>0 && this.ammo!==0){
+
+    if(g_PISTOL) ctx.fillText("You have " +this.PistolAmmo+ " shots left",50,50);
+    else ctx.fillText("You have " +this.ShotgunAmmo+ " shots left",50,50);
+    if(this.PistolReload>0 && this.PistolAmmo!==0 && g_PISTOL){
       ctx.save();
       ctx.fillStyle="red";
-      ctx.fillText("RELOADING",50,80);
+      ctx.fillText("RELOADING PISTOL",50,80);
       ctx.restore();
 
     }
-    if(this.ammo===0){
+    else if(this.ShotgunReload>0 && this.ShotgunAmmo!==0 && !g_PISTOL){
+      ctx.save();
+      ctx.fillStyle="red";
+      ctx.fillText("RELOADING SHOTGUN",50,80);
+      ctx.restore();
+
+    }
+    if(this.PistolAmmo===0 && this.ShotgunAmmo){
       ctx.save();
       ctx.fillStyle="red";
       ctx.fillText("OUT OF AMMO",50,80);
       ctx.restore();
-
       g_GAMEOVER = true;
 
     }

@@ -20,6 +20,7 @@ if(g_HighScore === null){
   localStorage.setItem("DuckHunt_highscore",g_Score);
     }
 var g_GAMEOVER = false;
+var g_PISTOL=true;
 
 // The "nominal interval" is the one that all of our time-based units are
 // calibrated to e.g. a velocity unit is "pixels per nominal interval"
