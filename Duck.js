@@ -64,15 +64,15 @@ Duck.prototype.randomisePosition = function () {
 Duck.prototype.randomiseColor = function () {
     // Duck randomisation defaults (if nothing otherwise specified)
     var oneTwoOrThree = Math.floor(util.randRange(1, 3));
-    if(g_dogWalkingCounter > 0) {
+    if(g_dogWalkingCounter > 299) {
       this.framewidth = 60;
       this.frameheight = 55;
       this.path = "ssdogwalk.png";
       this.scale = 2;
       this.cx = 50;
       this.cy = 550;
-      g_dogWalkingCounter = 0;
-      this.framerate = 10;
+      g_dogWalkingCounter = 299;
+      this.framerate = 25;
       this.startframe = 0;
       this.endframe = 7;
       this.velX = 1;
@@ -108,6 +108,7 @@ Duck.prototype.randomiseUpFlightOfARedDuckie = function () {
     this.DuckType = "red";
     this.velY = -util.randRange(2,4);
     this.velX = 0;
+    this.cy = g_canvas.height - 130;
     this.scale = 0.5;
     this.framerate = Math.abs(Math.floor(10/this.velY));
     this.framewidth=40;
@@ -213,13 +214,12 @@ Duck.prototype.update = function (du) {
       }
     }
 
-    if(g_dogWalkingCounter < -50) {
+    if(g_dogWalkingCounter < 50 && this.DuckType === "dog") {
         this.velX = 1;
-        this.velY = -1;
-        
-        if(g_dogWalkingCounter < -90) {
+        this.velY = -2;
+
+        if(g_dogWalkingCounter < -35 && this.DuckType === "dog") {
           this._isDeadNow = true;
-          g_dogWalkingCounter = undefined;
         }
     }
 
@@ -234,14 +234,14 @@ Duck.prototype.update = function (du) {
   this.outOfBondsLittleDuckie();
 
 
-  // TODO: YOUR STUFF HERE! --- (Re-)Register
   if(!this.isDead){
   spatialManager.register(this);
   }
 };
 
 Duck.prototype.getRadius = function () {
-    return 12*Math.abs(this.scale);
+    if(this.DuckType === "dog") return 40;
+    else return 12*Math.abs(this.scale);
 };
 
 Duck.prototype.produceSplatter = function () {
@@ -256,12 +256,16 @@ Duck.prototype.produceSplatter = function () {
 Duck.prototype.DuckiDied= new Audio(
     "duck2.mp3");
 
+Duck.prototype.DoggyDied= new Audio(
+        "Dog.mp3");
+
 Duck.prototype.takeBulletHit = function () {
   this.velY = 3;
   this.velX = 0;
   this.flightUpCounter = 1000000000;
   this.isDead = true;
-  this.DuckiDied.play();
+  if(this.DuckType === "dog") this.DoggyDied.play();
+  else this.DuckiDied.play();
 };
 
 

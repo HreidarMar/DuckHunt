@@ -72,7 +72,7 @@ function render(ctx) {
     ctx.restore();
 
     }
-    if((g_frameCounter > 500 && g_frameCounter < 520) || (g_frameCounter > 200 && g_frameCounter < 220)){
+    if((g_frameCounter > 900 && g_frameCounter < 930) || (g_frameCounter > 600 && g_frameCounter < 630)){
         g_sprites.Dog.drawCentredAt(g_ctx, 500, 470, 0, 312.5, 0, 62.5, 55, 125, 110);
     }
     // The core rendering of the actual game / simulation
