@@ -27,26 +27,24 @@ function Duck(descr) {
     }
     else {
       this.randomiseUpFlight();
-      this.randomiseColor();
       this.scale  = util.randRange(0.5,2);
+      this.randomiseColor();
     }
     // Default sprite and scale, if not otherwise specified
     this.sprite = this.sprite || g_sprites.Duck;
-
+    
     this.cy = g_canvas.height - 130;
+    
     this.flightUpCounter = util.randRange(25, 40);
 
     this.isDead = false;
-    //this.imgPosX = 0;
-    //this.imgPosY = 190;
-    this.imgWidth = 40;
-    this.imgHeight = 35;
-    this.imgDestWidth = this.imgWidth;
-    this.imgDestHeight = this.imgHeight;
+
 
     this.deathAnimationCounter = 15;
 
     this.DuckType;
+
+    this.initAnimation();
 /*
     // Diagnostics to check inheritance stuff
     this._DuckProperty = true;
@@ -57,6 +55,11 @@ function Duck(descr) {
 
 Duck.prototype = new Entity();
 
+Duck.prototype.initAnimation = function () {
+    this.spritesheet = new SpriteSheet(this.path, this.framewidth, this.frameheight);
+    this.flying = new Animation(this.spritesheet, this.framerate, this.startframe, this.endframe);
+};
+
 Duck.prototype.randomisePosition = function () {
     // Duck randomisation defaults (if nothing otherwise specified)
     var marginForStartPosition = 100;
@@ -66,16 +69,34 @@ Duck.prototype.randomisePosition = function () {
 Duck.prototype.randomiseColor = function () {
     // Duck randomisation defaults (if nothing otherwise specified)
     var oneTwoOrThree = Math.floor(util.randRange(1, 3));
+    if(g_dogWalkingCounter > 0) {
+      this.framewidth = 60;
+      this.frameheight = 55;
+      this.path = "ssdogwalk.png";
+      this.scale = 2;
+      this.cx = 50;
+      this.cy = 550;
+      g_dogWalkingCounter = 0;
+      this.framerate = 10;
+      this.startframe = 0;
+      this.endframe = 4;
+      this.velX = 1;
+      this.velY = 0;
+      this.DuckType = "dog";
+      return;
+    }
     switch(oneTwoOrThree) {
       case 1:
-        this.imgPosX = 0;
-        this.colorXVal = 0;
+        this.framewidth = 40;
+        this.frameheight = 37.5;
         this.DuckType = "blue";
+        this.path = "ssblue.png";
         break;
       case 2:
-        this.imgPosX = 130;
-        this.colorXVal = 130;
+        this.framewidth = 40;
+        this.frameheight = 37.5;
         this.DuckType = "black";
+        this.path = "ssblack.png";
         break;
     }
 
@@ -84,34 +105,42 @@ Duck.prototype.randomiseColor = function () {
 Duck.prototype.randomiseUpFlightOfARedDuckie = function () {
     var marginForStartPosition = 100;
     this.cx = this.cx || util.randRange(0 + marginForStartPosition,g_canvas.width - marginForStartPosition);
-    this.imgPosX = 255;
-    this.colorXVal = 255;
+    this.startframe = 6;
+    this.endframe = 8;
+    this.path = "ssred.png";
     this.DuckType = "red";
-    this.velY = -util.randRange(1,5);
+    this.velY = -util.randRange(2,4);
     this.velX = 0;
     this.scale = 0.5;
-    entityManager.setPoseSpeed(Math.abs(Math.floor(10/this.velY)));
+    this.framerate = Math.abs(Math.floor(10/this.velY));
+    this.framewidth=40;
+    this.frameheight=37.5;
 };
 
 
 Duck.prototype.randomiseUpFlight = function () {
 
-    this.velY = -util.randRange(1,5);
+    if(this.DuckType === "dog") {
+      this.velX = 1;
+      this.velY = 0;
+      this.scale = 2;
+      this.cy = 550;
+      return;
+    }
+    this.velY = -util.randRange(1,4);
     this.velX = 0;
-    entityManager.setPoseSpeed(Math.abs(Math.floor(10/this.velY)));
-    /*var MIN_SPEED = 150,
-        MAX_SPEED = 250;
-
-    var speed = util.randRange(MIN_SPEED, MAX_SPEED) / SECS_TO_NOMINALS;
-    var dirn = Math.random() * consts.FULL_CIRCLE;
-
-    this.velX = this.velX || speed * Math.cos(dirn);
-    this.velY = -Math.abs(this.velY || speed * Math.sin(dirn));
-*/
+    this.startframe = 6;
+    this.endframe = 8;
+    this.framerate = Math.abs(Math.floor(10/this.velY));
 };
 
 Duck.prototype.randomiseVelocity = function () {
 
+    if(this.DuckType === "dog") {
+      this.velX = 1;
+      this.velY = 0;
+      return;
+    }
     if(this.negOrPosVelX) {
       this.velX = util.randRange(1,3.5)*Math.abs(this.scale);
       this.velY = -util.randRange(1,3.5)*Math.abs(this.scale);
@@ -120,16 +149,20 @@ Duck.prototype.randomiseVelocity = function () {
       this.velX = -util.randRange(1,3.5)*Math.abs(this.scale);
       this.velY = -util.randRange(1,3.5)*Math.abs(this.scale);
     }
-    entityManager.setPoseSpeed(Math.abs(Math.floor(20/(Math.abs(this.velX)+Math.abs(this.velY)))));
-    /*var MIN_SPEED = 150
-        MAX_SPEED = 250;
-
-    var speed = util.randRange(MIN_SPEED, MAX_SPEED) / SECS_TO_NOMINALS;
-    var dirn = Math.random() * consts.FULL_CIRCLE;
-
-    this.velX = this.velX || speed * Math.cos(dirn);
-    this.velY = -Math.abs(this.velY || speed * Math.sin(dirn));
-*/
+    if(Math.abs(this.velX) > Math.abs(this.velY)) {
+      this.startframe = 0;
+      this.endframe = 2;
+    }
+    else {
+      this.startframe = 3;
+      this.endframe = 5;
+    }
+    if(this.DuckType === "red") {
+      this.velX *= 1.5;
+      this.velY *=1.5;
+    }
+    this.frameRate = Math.abs(Math.floor(20/(Math.abs(this.velX)+Math.abs(this.velY))));
+    this.flying = new Animation(this.spritesheet, this.frameRate, this.startframe, this.endframe);
 };
 
 Duck.prototype.halt = function () {
@@ -147,7 +180,19 @@ Duck.prototype.update = function (du) {
       this.takeBulletHit;
       return entityManager.KILL_ME_NOW;
     }
+        
+    if(this.velX > 0) {
+      if(this.scale < 0) {
+        this.scale *= -1;
+      }
+    }
+    if(this.velX <= 0) {
+      if(this.scale > 0) {
+        this.scale *= -1;
+      }
+    }
 
+    this.flying.update();
     this.cx += this.velX * du;
     this.cy += this.velY * du;
     if(this.isDead) {
@@ -157,84 +202,19 @@ Duck.prototype.update = function (du) {
       if(this.deathAnimationCounter > 0) {
         this.velX = -1;
         this.velY = -1;
-        this.imgPosY = 230;
+        this.startframe = 9;
+        this.endframe = 9;
         this.deathAnimationCounter--;
-        this.imgPosX = this.colorXVal;
+        this.flying = new Animation(this.spritesheet, 1, this.startframe, this.endframe);
       }
       else if(this.deathAnimationCounter <= 0){
         this.velY += 0.1;
-        this.imgPosX = this.colorXVal + 40;
+        this.startframe = 10;
+        this.endframe = 10;
+        this.flying = new Animation(this.spritesheet, 1, this.startframe, this.endframe);
       }
     }
-    else{
-      if(Math.abs(this.velX) > Math.abs(this.velY)){
-        if(this.velX > 0) {
-          if(this.scale<0) this.scale *= -1;
-          this.imgPosY = 120;
-          if(entityManager.updateDuckPose()){
-            if(this.imgPosX === 80 || this.imgPosX === 210 || this.imgPosX === 335) {
-              this.imgPosX -= 80;
-            }
-            else {
-              this.imgPosX += 40;
-            }
-          }
-        }
-        if(this.velX <= 0) {
-          if(this.scale>0) this.scale *= -1;
-            this.imgPosY = 120;
-            if(entityManager.updateDuckPose()){
-                if(this.imgPosX === 80 || this.imgPosX === 210 || this.imgPosX === 335) {
-                    this.imgPosX -= 80;
-                }
-                else {
-                    this.imgPosX += 40;
-                }
-            }
-        }
-      }
-      else if(this.velX === 0){
-        if(this.scale<0) this.scale *= -1;
-
-          this.imgPosY = 190;
-          if(entityManager.updateDuckPose()){
-              if(this.imgPosX === 80 || this.imgPosX === 210 || this.imgPosX === 335) {
-                  this.imgPosX -= 80;
-              }
-              else {
-                  this.imgPosX += 40;
-              }
-          }
-      }
-      else if(Math.abs(this.velX) <= Math.abs(this.velY)){
-        if(this.velX > 0) {
-          if(this.scale<0) this.scale *= -1;
-
-          this.imgPosY = 155;
-          if(entityManager.updateDuckPose()){
-            if(this.imgPosX === 80 || this.imgPosX === 210 || this.imgPosX === 335) {
-              this.imgPosX -= 80;
-            }
-            else {
-              this.imgPosX += 40;
-            }
-          }
-        }
-        if(this.velX <= 0) {
-          if(this.scale>0) this.scale *= -1;
-
-            this.imgPosY = 155;
-            if(entityManager.updateDuckPose()){
-                if(this.imgPosX === 80 || this.imgPosX === 210 || this.imgPosX === 335) {
-                    this.imgPosX -= 80;
-                }
-                else {
-                    this.imgPosX += 40;
-                }
-            }
-        }
-      }
-  }
+    
 
   if(this.flightUpCounter < 0) {
     this.randomiseVelocity();
@@ -263,14 +243,7 @@ Duck.prototype.produceSplatter = function () {
       g_ctx.restore();
     }
 };
-/*
-// HACKED-IN AUDIO (no preloading)
-Will use this later on
-Duck.prototype.splitSound = new Audio(
-  "sounds/rockSplit.ogg");
-Duck.prototype.evaporateSound = new Audio(
-  "sounds/rockEvaporate.ogg");
-*/
+
 Duck.prototype.takeBulletHit = function () {
   this.velY = 3;
   this.velX = 0;
@@ -278,25 +251,12 @@ Duck.prototype.takeBulletHit = function () {
   this.isDead = true;
 };
 
-Duck.prototype._spawnFragment = function () {
-    entityManager.generateDuck({
-        cx : this.cx,
-        cy : this.cy,
-        imgPosY : this.imgPosY,
-        imgPosX : this.imgPosX,
-        imgWidth : 10,
-        imgHeight : 10,
-        velY : 2,
-        velX : 0
-    });
-};
 
 Duck.prototype.render = function (ctx) {
-    var origScale = this.sprite.scale;
-    // pass my scale into the sprite, for drawing
-    this.sprite.scale = this.scale;
-    this.sprite.drawWrappedCentredAt(
-        ctx, this.cx, this.cy, this.rotation, this.imgPosX, this.imgPosY, this.imgWidth, this.imgHeight, this.imgDestWidth, this.imgDestHeight
-    );
-    var origScale = this.sprite.scale;
+  if(this.DuckType==="dog"){
+    this.flying.draw(this.cx, this.cy+90, this.scale);
+  }
+  else{
+    this.flying.draw(this.cx, this.cy, this.scale);
+  }
 };

@@ -34,8 +34,6 @@ _Guns    : [],
 _bShowDucks : true,
 
 counter : 60,
-counterPose : 0,
-poseSpeed : 0,
 
 // "PRIVATE" METHODS
 
@@ -54,9 +52,6 @@ _forEachOf: function(aCategory, fn) {
     }
 },
 
-setPoseSpeed: function(num) {
-    this.poseSpeed = num;
-},
 
 // PUBLIC METHODS
 
@@ -98,14 +93,6 @@ haltDucks: function() {
   this._forEachOf(this._Ducks, Duck.prototype.halt);
 },
 
-updateDuckPose: function() {
-    if(this.counterPose > this.poseSpeed) {
-        this.counterPose = 0;
-        return true;
-    }
-    return false;
-},
-
 
 update: function(du) {
 
@@ -136,13 +123,12 @@ update: function(du) {
 
     if (this.counter === 0) {
         this._generateDucks();
-        this.counter = Math.floor(util.randRange(100, 240));
+        this.counter = Math.floor(util.randRange(60, 120));
     }
 
     this.counter--;
 
-    this.counterPose++;
-
+    
     main.timePasses(du);
 
 },
