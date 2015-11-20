@@ -33,7 +33,6 @@ function Duck(descr) {
     // Default sprite and scale, if not otherwise specified
     this.sprite = this.sprite || g_sprites.Duck;
 
-    this.cy = g_canvas.height - 130;
 
     this.flightUpCounter = util.randRange(25, 40);
 
@@ -75,7 +74,7 @@ Duck.prototype.randomiseColor = function () {
       g_dogWalkingCounter = 0;
       this.framerate = 10;
       this.startframe = 0;
-      this.endframe = 4;
+      this.endframe = 7;
       this.velX = 1;
       this.velY = 0;
       this.DuckType = "dog";
@@ -87,12 +86,14 @@ Duck.prototype.randomiseColor = function () {
         this.frameheight = 37.5;
         this.DuckType = "blue";
         this.path = "ssblue.png";
+        this.cy = g_canvas.height - 130;
         break;
       case 2:
         this.framewidth = 40;
         this.frameheight = 37.5;
         this.DuckType = "black";
         this.path = "ssblack.png";
+        this.cy = g_canvas.height - 130;
         break;
     }
 
@@ -212,6 +213,15 @@ Duck.prototype.update = function (du) {
       }
     }
 
+    if(g_dogWalkingCounter < -50) {
+        this.velX = 1;
+        this.velY = -1;
+        
+        if(g_dogWalkingCounter < -90) {
+          this._isDeadNow = true;
+          g_dogWalkingCounter = undefined;
+        }
+    }
 
   if(this.flightUpCounter < 0) {
     this.randomiseVelocity();
@@ -220,8 +230,9 @@ Duck.prototype.update = function (du) {
 
   g_redCounter--;
   this.flightUpCounter--;
-
+  g_dogWalkingCounter--;
   this.outOfBondsLittleDuckie();
+
 
   // TODO: YOUR STUFF HERE! --- (Re-)Register
   if(!this.isDead){
@@ -256,9 +267,10 @@ Duck.prototype.takeBulletHit = function () {
 
 Duck.prototype.render = function (ctx) {
   if(this.DuckType==="dog"){
-    this.flying.draw(this.cx, this.cy+90, this.scale);
+    this.flying.draw(this.cx, this.cy, this.scale);
   }
   else{
     this.flying.draw(this.cx, this.cy, this.scale);
   }
+
 };

@@ -138,7 +138,8 @@ function requestPreloads() {
         Gun  :  "pistol.png",
         Gun2  :  "Doublebarrel.png",
         Duck   : "duckhunt_various_sheet.png",
-        Gunflash : "flash.png"
+        Gunflash : "flash.png",
+        Dog : "ssdog.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -153,6 +154,7 @@ function preloadDone() {
     g_sprites.Gun2 = new Sprite(g_images.Gun2);
     g_sprites.Duck  = new Sprite(g_images.Duck);
     g_sprites.Gunflash  = new Sprite(g_images.Gunflash);
+    g_sprites.Dog = new Sprite(g_images.Dog);
 
     entityManager.init();
     createInitialTarget();

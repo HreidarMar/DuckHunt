@@ -81,6 +81,7 @@ Entity.prototype.isItAHit = function () {
 
 Entity.prototype.outOfBondsLittleDuckie = function () {
     var marginForKillingLittleDuckies=10;
+    if(this.DuckType === "dog") {return;}
     if(-marginForKillingLittleDuckies>this.cx || this.cx>g_canvas.width+marginForKillingLittleDuckies) this.kill();
     if(-marginForKillingLittleDuckies>this.cy || this.cy>g_canvas.height-130) this.kill();
 };
