@@ -71,32 +71,6 @@ Gun.prototype.update = function (du) {
         this.animateShot = true;
         this.shotCounter--;
     }
-  /*  if(g_mouseY < g_canvas.height/2) {
-        if(g_mouseX < g_canvas.width/3) {
-            this.rotation = 6.3;
-            this._scale = 0.8;
-        }
-        else if(g_mouseX >= g_canvas.width/3 && g_mouseX < 2*g_canvas.width/3) {
-            this.rotation = 6.6;
-            this._scale = 0.8;
-        }
-        else {
-            this._scale = -0.8;
-        }
-    }
-    else {
-        if(g_mouseX < g_canvas.width/3) {
-            this.rotation = 6.3;
-            this._scale = 0.8;
-        }
-        else if(g_mouseX >= g_canvas.width/3 && g_mouseX < 2*g_canvas.width/3) {
-            this.rotation = 6.6;
-            this._scale = 0.8;
-        }
-        else {
-            this._scale = -0.8;
-        }
-    }*/
 };
 
 
@@ -117,5 +91,4 @@ Gun.prototype.render = function (ctx) {
         this.animateShot = false;
         this.sprite.scale = origScale;
     }
-    //this.sprite.drawAt(ctx,x,y);
 };

@@ -17,7 +17,6 @@ var g_ctx = g_canvas.getContext("2d");
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 */
 
-
 // ====================
 // CREATE INITIAL SHIPS
 // ====================
@@ -154,8 +153,6 @@ function preloadDone() {
     g_sprites.Gun2 = new Sprite(g_images.Gun2);
     g_sprites.Duck  = new Sprite(g_images.Duck);
     g_sprites.Gunflash  = new Sprite(g_images.Gunflash);
-
-
 
     entityManager.init();
     createInitialTarget();

@@ -45,11 +45,7 @@ function Duck(descr) {
     this.DuckType;
 
     this.initAnimation();
-/*
-    // Diagnostics to check inheritance stuff
-    this._DuckProperty = true;
-    console.dir(this);
-*/
+
 
 };
 

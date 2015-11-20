@@ -42,14 +42,10 @@ Shot.prototype = new Entity();
 Shot.prototype.PistolFired= new Audio(
   "sounds/ShotsFired.mp3");
 
-Shot.prototype.Reload= new Audio(
-    "sounds/ReloadMotherfucker.mp3");
-
 Shot.prototype.ShotgunFired= new Audio(
     "sounds/shotgun2.mp3");
 
 Shot.prototype.update = function (du) {
-
 
     this.cx = g_mouseX;
     this.cy = g_mouseY;
@@ -75,8 +71,6 @@ Shot.prototype.update = function (du) {
       	  }
         g_isShooting = true;
         this.PistolFired.play();
-        //spatialManager.register(this);
-        //this.Reload.play();
         }
       }
     }
