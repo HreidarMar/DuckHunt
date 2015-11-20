@@ -96,10 +96,15 @@ main.gameOver = function () {
 
   ctx.fillText("Your score is "+ g_Score,500,290);
 
-//localStorage.removeItem("DuckHunt_highscore");
+  //localStorage.removeItem("DuckHunt_highscore");
   if (g_Score > g_HighScore) {
     document.getElementById('HighScore').play();
     localStorage.setItem("DuckHunt_highscore", g_Score );
+    ctx.save();
+    ctx.font = "40px Arial";
+    ctx.fillStyle = '#CC00FF';
+    ctx.fillText("CONGRATULATIONS YOU HAVE THE HIGHSCORE!",500,200);
+    ctx.restore();
   }
   g_HighScore = localStorage.getItem("DuckHunt_highscore");
   ctx.fillText("The highscore is: " + g_HighScore,500,320);

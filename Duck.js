@@ -174,7 +174,6 @@ Duck.prototype.update = function (du) {
     spatialManager.unregister(this);
 
     if (this._isDeadNow) {
-
       this.takeBulletHit;
       return entityManager.KILL_ME_NOW;
     }
@@ -225,8 +224,9 @@ Duck.prototype.update = function (du) {
   this.outOfBondsLittleDuckie();
 
   // TODO: YOUR STUFF HERE! --- (Re-)Register
+  if(!this.isDead){
   spatialManager.register(this);
-
+  }
 };
 
 Duck.prototype.getRadius = function () {
