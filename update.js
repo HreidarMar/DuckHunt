@@ -66,8 +66,11 @@ var KEY_NO = 'N'.charCodeAt(0);
 var g_isUpdatePaused = false;
 
 function shouldSkipUpdate() {
+    if(g_isUpdatePaused) document.getElementById('Xmas').pause();
+    else if(g_winterMode && !g_isUpdatePaused) document.getElementById('Xmas').play();
     if (eatKey(KEY_PAUSE)) {
-        g_isUpdatePaused = !g_isUpdatePaused;
+
+      g_isUpdatePaused = !g_isUpdatePaused;
         if(keys[KEY_YES]) {
           g_GAMEOVER=true;
         }

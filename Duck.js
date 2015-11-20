@@ -32,9 +32,9 @@ function Duck(descr) {
     }
     // Default sprite and scale, if not otherwise specified
     this.sprite = this.sprite || g_sprites.Duck;
-    
+
     this.cy = g_canvas.height - 130;
-    
+
     this.flightUpCounter = util.randRange(25, 40);
 
     this.isDead = false;
@@ -170,6 +170,8 @@ Duck.prototype.halt = function () {
     this.velY = 0;
 };
 
+
+
 Duck.prototype.update = function (du) {
 
 
@@ -180,7 +182,7 @@ Duck.prototype.update = function (du) {
       this.takeBulletHit;
       return entityManager.KILL_ME_NOW;
     }
-        
+
     if(this.velX > 0) {
       if(this.scale < 0) {
         this.scale *= -1;
@@ -214,7 +216,7 @@ Duck.prototype.update = function (du) {
         this.flying = new Animation(this.spritesheet, 1, this.startframe, this.endframe);
       }
     }
-    
+
 
   if(this.flightUpCounter < 0) {
     this.randomiseVelocity();
@@ -244,11 +246,15 @@ Duck.prototype.produceSplatter = function () {
     }
 };
 
+Duck.prototype.DuckiDied= new Audio(
+    "duck2.mp3");
+
 Duck.prototype.takeBulletHit = function () {
   this.velY = 3;
   this.velX = 0;
   this.flightUpCounter = 1000000000;
   this.isDead = true;
+  this.DuckiDied.play();
 };
 
 

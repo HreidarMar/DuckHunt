@@ -85,7 +85,7 @@ main._isGameOver = false;
 
 main.gameOver = function () {
   document.getElementById('Xmas').pause();
-  
+
   ctx.textAlign="center";
   ctx.font = "50px Arial";
   ctx.fillStyle = 'red';
@@ -98,6 +98,7 @@ main.gameOver = function () {
 
 //localStorage.removeItem("DuckHunt_highscore");
   if (g_Score > g_HighScore) {
+    document.getElementById('HighScore').play();
     localStorage.setItem("DuckHunt_highscore", g_Score );
   }
   g_HighScore = localStorage.getItem("DuckHunt_highscore");

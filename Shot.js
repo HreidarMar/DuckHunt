@@ -48,7 +48,6 @@ Shot.prototype.Reload= new Audio(
 Shot.prototype.ShotgunFired= new Audio(
     "sounds/shotgun2.mp3");
 
-
 Shot.prototype.update = function (du) {
 
 
@@ -70,8 +69,8 @@ Shot.prototype.update = function (du) {
               g_Score +=5;
             }
             else {
-            TheDieingDuck.takeBulletHit();
-            g_Score++;
+              TheDieingDuck.takeBulletHit();
+              g_Score++;
             }
       	  }
         g_isShooting = true;
