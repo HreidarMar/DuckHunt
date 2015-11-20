@@ -146,13 +146,21 @@ Shot.prototype.render = function (ctx) {
       ctx.restore();
 
     }
-    if(this.PistolAmmo===0 && this.ShotgunAmmo){
+    if(this.PistolAmmo===0 && this.ShotgunAmmo===0){
+      g_GAMEOVER = true;
+    }
+
+    if(this.PistolAmmo===0){
       ctx.save();
       ctx.fillStyle="red";
-      ctx.fillText("OUT OF AMMO",50,80);
+      ctx.fillText("THE PISTOL IS OUT OF AMMO",50,110);
       ctx.restore();
-      g_GAMEOVER = true;
-
+    }
+    if(this.ShotgunAmmo===0){
+      ctx.save();
+      ctx.fillStyle="red";
+      ctx.fillText("THE SHOTGUN IS OUT OF AMMO",50,110);
+      ctx.restore();
     }
 
 };
