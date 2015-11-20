@@ -34,7 +34,7 @@ function Duck(descr) {
     this.sprite = this.sprite || g_sprites.Duck;
 
     this.cy = g_canvas.height - 130;
-    this.flightUpCounter = util.randRange(30, 50);
+    this.flightUpCounter = util.randRange(25, 40);
 
     this.isDead = false;
     //this.imgPosX = 0;
@@ -139,7 +139,7 @@ Duck.prototype.halt = function () {
 
 Duck.prototype.update = function (du) {
 
-    
+
     spatialManager.unregister(this);
 
     if (this._isDeadNow) {
@@ -235,7 +235,7 @@ Duck.prototype.update = function (du) {
         }
       }
   }
-  
+
   if(this.flightUpCounter < 0) {
     this.randomiseVelocity();
     this.flightUpCounter = util.randRange(10, 30);

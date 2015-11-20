@@ -76,7 +76,7 @@ Shot.prototype.update = function (du) {
       	  }
         g_isShooting = true;
         this.PistolFired.play();
-        spatialManager.register(this);
+        //spatialManager.register(this);
         //this.Reload.play();
         }
       }
@@ -101,7 +101,7 @@ Shot.prototype.update = function (du) {
       	  }
         g_isShooting = true;
         this.ShotgunFired.play();
-        spatialManager.register(this);
+      //  spatialManager.register(this);
 
         //this.Reload.play();
         }
